@@ -1,0 +1,65 @@
+include ../../layout.pug 
+block content
+    
+    if realty 
+        .container 
+         .row
+          .col-lg-8.offset-1
+            h1 #{realty.type}-#{realty.area} m²-#{realty.address1}
+                    
+                    
+
+            h2 #{realty.room} pièces-#{realty.area} m²- #{realty.town}-#{realty.zipcode}
+    
+                
+
+            h2 #{realty.price} $
+            
+            h3 #{realty.created_date.toUTCString()}  
+
+            hr      
+            hr    
+
+            h3 Description 
+
+            p #{realty.town} - #{realty.address1} 
+
+            p=realty.info_address 
+            p=realty.info 
+
+            p Prix: #{realty.price} $
+
+          .col-lg-3
+           h1 pk  
+
+
+
+                    //- table.table.table-hover
+                    //-     thead 
+                    //-         tr 
+                    //-             th Adresse 
+                    //-             th ville 
+                    //-             th code postal  
+                    //-             th Prix 
+                    //-             th Piéce 
+                    //-             th vendu
+
+                    //-     tbody 
+                    //-             tr                                       
+                    //-                 td= realty.address1
+                                     
+                    //-                 td= realty.town
+                    //-                 td= realty.zipcode
+                    //-                 td= realty.price 
+                    //-                 td= realty.type
+                    //-                 td= realty.area
+                    //-                 td= realty.chambre
+                    //-                 td= realty.info_adress
+
+                    //-                 td= realty.info
+
+                    //-                 td= realty.created_date.toUTCString()
+
+                    //-                 td= realty.sold > 0 ? "yes" : "non"
+                    //-                 td= realty.online > 0 ? "yes" : "non"
+                                  

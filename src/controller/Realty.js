@@ -1,0 +1,196 @@
+const RealtyModel = require("../../repository/RealtyModel")
+const ContactModel = require("../../repository/ContactModel")
+
+module.exports = class Realty{
+
+
+
+        RealtyList(req,res){
+            if(typeof req.session.user !== 'undefined') {
+          
+                let limit = 20; // nombre d'éléments par page
+    
+               let page = parseInt(req.query.page) || 1;
+               let offset = (page - 1) * limit;
+    
+               new RealtyModel().RealtyCount().then(total=> {
+                
+                const totalPages = Math.ceil(total[0].realties/limit)
+    
+    
+                new RealtyModel().RealtyList(limit,offset).then(realties=>
+                    {
+        
+                         
+        
+                    res.render("admin/Realty/realty-List",{realties,page,totalPages})
+                    }
+                    )
+                }
+               )
+        
+            
+            }   
+            else{
+                req.flash('error', `Vous devez être connecté pour accéder à l'administration.`);
+                res.redirect('/connexion');  
+            }
+           
+            }
+
+        RealtySingle(req,res){
+
+            new RealtyModel().getRealtyById(req.params.id).then(realties=>{
+                
+                let realty=realties[0]
+                if(realty.type == 1)
+                {
+                    realty.type = "Appartement"
+
+                }
+                if(realty.type == 2)
+                {
+                    realty.type = "Maison"
+
+                }
+                if(realty.type == 3)
+                {
+                    realty.type = "Studio"
+
+                }
+                if(realty.type > 3)
+                {
+                    realty.type = "Autre"
+
+                }
+                res.render("Realty-Client/detail/realty-detail",{realty})
+            
+            
+            })
+
+        }    
+        
+        RealtyAdd(req,res){
+
+            const contact = {
+
+                civility : req.body.civility,
+                firstname:req.body.firstname,
+                lastname:req.body.lastname,
+                email:req.body.email,
+                phone:req.body.phone,
+                mobile:req.body.mobile,
+                info:req.body.infoContact,
+    
+            }
+    
+            const realty = {
+    
+                user_id : req.session.user.id,
+                address1: req.body.Adresse,
+                adresse2:req.body.Addresse2,
+                town:req.body.town,
+                zipcode:req.body.zipcode,
+                info_address:req.body.info,
+                type:req.body.type,
+                area:req.body.area,
+                room:req.body.room,
+                price:req.body.price,
+                sold:false,
+                online:true,
+                info:req.body.infoContact
+    
+            }     
+
+            new ContactModel().getContactByEmail(contact.email).then(async response=>{
+            
+                if(response[0]){
+
+                    new ContactModel().UpdateContact(contact,response[0].id)
+
+                    realty.contact_id = response[0].id
+                    console.log("realty:",realty);
+                    new RealtyModel().addRealty(realty).then( response=>{
+                        
+                        req.flash('notify', 'Votre bien a bien été créé.');
+                        res.redirect('/admin/realty');
+                        
+                    }
+                        )
+
+                }
+
+                else{
+
+                
+                    new ContactModel().addContact(contact)
+    
+                    new ContactModel().getContactByEmail(contact.email).then(response1=>{
+    
+      
+                    realty.contact_id = response1[0].id
+                    new RealtyModel().addRealty(realty).then( response=>{
+                        
+                        req.flash('notify', 'Votre bien a bien été créé.');
+                        res.redirect('/admin/realty');
+                        
+                    }
+                        )
+
+                  })
+                }
+
+
+            })
+        
+        
+        }    
+
+        RealtyAddForm(req,res){
+
+            res.render("admin/Realty/realty-form",{realty:0})
+        }  
+
+        RealtyEdit(req,res){
+
+             new RealtyModel().UpdateRealty(req.body,req.params.id).then(response=>{
+    
+                let id = req.params.id
+
+                req.flash('notify', `Votre bien ${id} bien modifiez ! `);
+                res.redirect('/admin/realty');
+                        
+        
+            })
+
+        }    
+
+        RealtyEditForm(req,res){
+
+             new RealtyModel().getRealtyById(req.params.id).then(response=>{
+    
+                const realty = response[0];
+                console.log(realty);
+        
+                res.render("admin/Realty/realty-form",{realty})
+            })
+
+        }    
+
+
+         RealtyDelete(req,res){
+
+            
+           new RealtyModel().DeleteRealty(req.params.id)
+               
+                req.flash("notify",`bien ${req.params.id} supprimé !`)
+           
+                this.RealtyList(req,res)
+                
+        
+                
+
+
+         }   
+
+}

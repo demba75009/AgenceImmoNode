@@ -1,0 +1,127 @@
+//- realty[champ] contact[champ] + extendes = true => classé les input selon la categorie(realty ou contact dans cette exemple)
+extends ../layout.pug
+
+
+block content
+   
+
+    if realty
+     h1 modifiez 
+    else 
+     h1 Enregistrer un bien 
+     if error 
+        .alert.alert-danger #{error}
+    form(method="post"                                
+ action= realty.id ? `/admin/realty/edit/${realty.id}?_method=PUT` : "/admin/realty/add/ok" )
+     
+     h2 Adresse du bien
+                
+     label Adresse 
+
+     input(type="text" class="form-control" placeholder="Adresse" name="Adresse" value=realty.address1)
+     br     
+     label Adresse2 
+
+     input(type="text" class="form-control" placeholder="room, code appartement" name="Addresse2" value=realty.address2)
+     br     
+   
+     label Code Postal 
+
+     input(type="text" class="form-control" placeholder="Code Postal" name="zipcode" value=realty.zipcode)
+     br     
+        
+     label Ville 
+
+     input(type="text" class="form-control" placeholder="Ville" name="town" value=realty.town)
+     br     
+       
+     label Information complementaire 
+     br
+
+     textarea( cols="50", rows="10", placeholder="Distance, transport en commun...",name ="info" value=realty.info) 
+     br     
+     fieldset
+
+      h2 Information du bien
+      
+      label Type de bien 
+      br
+      .input-group.mb-3
+            .input-group-prepend
+                .input-group-text.d-none.d-lg-block 
+            select(class="form-control" placeholder="type" name="type" )
+                option(value="1" selected=realty.type=="1") Appartement
+                option(value="2" selected=realty.type=="2") Maison
+                option(value="3" selected=realty.type=="3") Studio
+
+      label Prix
+      br     
+      input(type="number" class="form-control" placeholder="prix" name="price" value=realty.price)
+      br 
+
+      label Surface en m²
+      br     
+      input(type="number" class="form-control" placeholder=" Surface en m²" name="area" value=realty.area)
+      br 
+
+     
+     if !realty
+        h2 Contact du bien
+
+        .input-group.mb-3
+                .input-group-prepend
+                    .input-group-text.d-none.d-lg-block 
+                        i.fa.fa-restroom
+                select(class="form-control civility" placeholder="Civilité" name="civility" )
+                    option(value="M" selected=realty.civility=="M") Monsieur
+                    option(value="F" selected=realty.civility=="F") Madame
+
+
+
+        label Nom
+        br     
+        input(type="text" class="form-control lastname" placeholder=" Nom" name="lastname" value=realty.lastname)
+        br           
+
+        label Prenom
+        br     
+        input(type="text" class="form-control firstname" placeholder=" Prenom" name="firstname" value=realty.firstname)
+        br     
+
+        label Email
+        br     
+        input(type="email" class="form-control email" placeholder=" email" name="email" value=realty.email)
+        br     
+
+        label Mobile
+        br     
+        input(type="text" class="form-control phone" placeholder=" Mobile" name="phone" value=realty.phone)
+        br      
+
+        label Téléphone
+        br     
+        input(type="text" class="form-control mobile " placeholder=" Téléphone" name="mobile" value=realty.mobile)
+        br   
+
+        label Information complementaire 
+        br
+
+        textarea( cols="50", rows="10", class ="info",placeholder="Distance, transport en commun...",name ="infoContact" value=realty.info) 
+        br   
+        br     
+
+     br  
+
+     label Nombre de pièce
+     br     
+     input(type="text" class="form-control" placeholder="Nombre de pièces" name="room" value=realty.room)
+     br     
+      
+                                            
+     .col-lg-12
+        button.btn.btn-primary.center-block(type="submit") Enregistrer
+ 
+block scripts 
+     script(src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js")
+     script(src="/javascript/admin.js") 
+

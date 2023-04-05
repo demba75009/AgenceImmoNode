@@ -1,0 +1,34 @@
+
+
+
+block content
+    h1 Liste des biens
+    
+    if realties.length > 0 
+         .row
+            .col-md-12
+                .panel.panel-container
+                    table.table.table-hover
+                        thead 
+                            tr 
+                                th Adresse 
+                                th ville 
+                                th code postal  
+                                th Prix 
+                                th Piéce 
+                                th vendu
+
+                        tbody 
+                            each realtie in realties 
+
+                                tr                                       
+                                    td 
+                                     a(href=`/realty/${realtie.id}`)=realtie.address1
+                                     
+                                    td= realtie.town
+                                    td= realtie.zipcode
+                                    td= realtie.price 
+                                    td= realtie.type
+                                    td= realtie.sold > 0 ? "yes" : "non"
+                                  
+    include ../utils/paginateRealtyClient.pug 

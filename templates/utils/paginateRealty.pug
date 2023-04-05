@@ -1,0 +1,7 @@
+.d-flex.justify-content-evenly
+        p Page #{page} of #{totalPages}
+
+        if page > 1
+            a(href='/admin/realty/?page=' + (page - 1)) Previous
+        if page < totalPages
+            a(href='/admin/realty/?page=' + (page + 1)) Next

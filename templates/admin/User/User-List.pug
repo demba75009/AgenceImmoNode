@@ -1,0 +1,48 @@
+extends ../layout.pug
+
+block breadcrumb  
+    li
+        a(href='#')
+            em(class='fa fa-user')
+        li(class='active')   &nbsp; &nbsp;Les utilisateurs
+        
+
+block content
+    .row
+        .col-md-12
+            .panel.panel-container
+                .panel.panel-default.articles
+                    .panel-heading Liste des utilisateurs
+                        .float-end
+                            a.btn.btn-primary(href="/admin/user-list/add") Ajouter un utilisateur          
+                            .clear
+    if users.length > 0 
+        .row
+            .col-md-12
+                .panel.panel-container
+                    table.table.table-hover
+                        thead 
+                            tr 
+                                th
+                                th Nom 
+                                th Prénom 
+                                th Email  
+                                th Phone  
+                                th(style="width:1%;")  
+                                th(style="width:1%;")  
+                        tbody 
+                            each user in users 
+                                tr 
+                                    td= user.id                                    
+                                    td= user.lastname
+                                    td= user.firstname
+                                    td= user.email
+                                    td= user.phone
+                                    td
+                                        a(href="/admin/user-list/edit/"+user.id)
+                                            button.btn.btn-primary 
+                                                i.fa.fa-edit
+                                    td
+                                        form( method = "post"  enctype="application/x-www-form-urlencoded" action=`/admin/user-list/delete/${user.id}?_method=DELETE` )  
+                                         button(class="btn btn-danger") Supprimez
+        include ../../utils/paginate.pug 

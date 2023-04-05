@@ -1,0 +1,8 @@
+.d-flex.justify-content-evenly
+        p Page #{page} of #{totalPages}
+
+        .d-flex.justify-content-space-between
+         if page > 1
+            a(href='/?page=' + (page - 1)) Previous
+         if page < totalPages
+            a(class="ms-2" href='/?page=' + (page + 1)) Next
