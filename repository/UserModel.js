@@ -5,7 +5,8 @@ module.exports = class UserModel {
 
     addUser(user){
 
-        con.promise().query(`INSERT INTO users (civility, lastname, email, firstname, phone, password) values ("${user.civility}", "${user.lastname}", "${user.email}", "${user.firstname}", "${user.phone}", "${user.password}");`).then(([rows]) => {
+        console.log(user);
+        con.promise().query(`INSERT INTO users (civility, lastname, email, firstname, phone, password,roles) values ("${user.civility}", "${user.lastname}", "${user.email}", "${user.firstname}", "${user.phone}", "${user.password}", "${user.roles}");`).then(([rows]) => {
 
 
         });

@@ -1,12 +1,12 @@
 const RealtyModel = require("../../repository/RealtyModel")
 const ContactModel = require("../../repository/ContactModel")
-
+const UploadImageProductService = require("../services/UploadImageProduct")
 module.exports = class Realty{
 
 
 
         RealtyList(req,res){
-            if(typeof req.session.user !== 'undefined') {
+            if(typeof req.user) {
           
                 let limit = 20; // nombre d'éléments par page
     
@@ -20,10 +20,13 @@ module.exports = class Realty{
     
                 new RealtyModel().RealtyList(limit,offset).then(realties=>
                     {
-        
+                        let user = req.user
+                       
+                            res.render("admin/Realty/realty-List",{realties,page,totalPages,user})
+
+                        
                          
         
-                    res.render("admin/Realty/realty-List",{realties,page,totalPages})
                     }
                     )
                 }
@@ -86,7 +89,7 @@ module.exports = class Realty{
     
             const realty = {
     
-                user_id : req.session.user.id,
+                user_id : req.user.id,
                 address1: req.body.Adresse,
                 adresse2:req.body.Addresse2,
                 town:req.body.town,
@@ -112,9 +115,47 @@ module.exports = class Realty{
                     console.log("realty:",realty);
                     new RealtyModel().addRealty(realty).then( response=>{
                         
-                        req.flash('notify', 'Votre bien a bien été créé.');
-                        res.redirect('/admin/realty');
-                        
+                        let photos = [];
+                        // Enregistrement des images
+                        if(typeof req.files != 'undefined' && req.files != null) {
+                            if(typeof req.files.photos[0] === 'undefined') {
+                                req.files.photos = [req.files.photos];
+                            }
+                            const UploadImageProduct = new UploadImageProductService();
+                            if(typeof req.files.photos != 'undefined' && req.files.photos.length > 0) {
+                            
+                                Object.values(req.files.photos).forEach(file => {
+                                    photos.push(UploadImageProduct.moveFile(file, response[0].insertId));
+                                });
+                            }                                
+                            Promise.all(photos).then((values) => {
+                               
+                                values.forEach((path, index) => {
+
+                                    const picture = {
+
+                                        id_realty : response[0].insertId,
+                                        url_path: path.replace('public/',''),
+                                        ordre:index+1
+                                        
+
+                                    }
+
+                                    new RealtyModel().addRealtyPicture(picture).then(r=>{
+
+                                        req.flash('notify', `Le bien a été enregistré`);
+                                        let user = req.user
+
+                                        res.redirect('/admin/realty',{user});
+                                    })
+
+                                })
+
+                               
+                            });
+                        }
+
+
                     }
                         )
 
@@ -131,8 +172,43 @@ module.exports = class Realty{
                     realty.contact_id = response1[0].id
                     new RealtyModel().addRealty(realty).then( response=>{
                         
-                        req.flash('notify', 'Votre bien a bien été créé.');
-                        res.redirect('/admin/realty');
+                        let photos = [];
+                        // Enregistrement des images
+                        if(typeof req.files != 'undefined' && req.files != null) {
+                            if(typeof req.files.photos[0] === 'undefined') {
+                                req.files.photos = [req.files.photos];
+                            }
+                            const UploadImageProduct = new UploadImageProductService();
+                            if(typeof req.files.photos != 'undefined' && req.files.photos.length > 0) {
+                            
+                                Object.values(req.files.photos).forEach(file => {
+                                    photos.push(UploadImageProduct.moveFile(file, response[0].insertId));
+                                });
+                            }                                
+                            Promise.all(photos).then((values) => {
+                                
+                                values.forEach((path, index) => {
+
+                                    const picture = {
+
+                                        id_realty : response[0].insertId,
+                                        url_path: path.replace('public/',''),
+                                        ordre:index+1
+
+
+                                    }
+
+                                    new RealtyModel().addRealtyPicture(picture).then(r=>{
+
+                                        let user = req.user
+
+                                        req.flash('success', `Le bien a été enregistré`);
+                                        res.redirect('/admin/realty',user);
+                                    })
+
+                                })
+                            });
+                        }
                         
                     }
                         )
@@ -147,8 +223,9 @@ module.exports = class Realty{
         }    
 
         RealtyAddForm(req,res){
+            let user = req.user
 
-            res.render("admin/Realty/realty-form",{realty:0})
+            res.render("admin/Realty/realty-form",{realty:0,user})
         }  
 
         RealtyEdit(req,res){
@@ -157,8 +234,10 @@ module.exports = class Realty{
     
                 let id = req.params.id
 
+                let user = req.user
+
                 req.flash('notify', `Votre bien ${id} bien modifiez ! `);
-                res.redirect('/admin/realty');
+                res.redirect('/admin/realty',{user});
                         
         
             })
@@ -172,7 +251,9 @@ module.exports = class Realty{
                 const realty = response[0];
                 console.log(realty);
         
-                res.render("admin/Realty/realty-form",{realty})
+                let user = req.user
+
+                res.render("admin/Realty/realty-form",{realty,user})
             })
 
         }    
@@ -182,7 +263,7 @@ module.exports = class Realty{
 
             
            new RealtyModel().DeleteRealty(req.params.id)
-               
+
                 req.flash("notify",`bien ${req.params.id} supprimé !`)
            
                 this.RealtyList(req,res)

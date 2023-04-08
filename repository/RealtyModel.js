@@ -8,11 +8,27 @@ module.exports = class RealtyModel {
         return con.promise().query(`INSERT INTO realties (user_id, contact_id, address1, address2,  town,zipcode,info_address,type,area,room,price,sold,online,info) values ("${realties.user_id}", "${realties.contact_id}", "${realties.address1}", "${realties.adress2}", "${realties.town}", "${realties.zipcode}", "${realties.info_address}","${realties.type}","${realties.area}","${realties.room}","${realties.price}","${realties.sold}","${realties.online}","${realties.info}");`);
     }
 
+
+    addRealtyPicture(pictures){
+      
+        return con.promise().query(`INSERT INTO pictures (realty_id,url_path,Ordre) values ("${pictures.id_realty}","${pictures.url_path}","${pictures.ordre}");`)
+
+
+    }
+
     RealtyList(limit,offset){
 
-        return con.promise().query("SELECT `r`.*, `u`.`firstname` AS `user_firstname`, `u`.`lastname` AS `user_lastname`, `c`.`firstname` AS `contact_firstname`, `c`.`lastname` AS `contact_lastname` FROM `realties` AS `r` INNER JOIN `users` AS `u` ON `u`.`id`=`r`.`user_id` INNER JOIN `contacts` AS `c` ON `c`.`id`=`r`.`contact_id` LIMIT ? OFFSET ? ;",[limit,offset]).then(([rows]) => {
+        return con.promise().query("SELECT `r`.*, `u`.`firstname` AS `user_firstname`, `u`.`lastname` AS `user_lastname`, `c`.`firstname` AS `contact_firstname`, `c`.`lastname` AS `contact_lastname` FROM `realties` AS `r` INNER JOIN `users` AS `u` ON `u`.`id`=`r`.`user_id` INNER JOIN `contacts` AS `c` ON `c`.`id`=`r`.`contact_id`order by id desc LIMIT ? OFFSET ?  ;",[limit,offset]).then(([rows]) => {
             return Object.values(rows)
          });
+    }
+
+    ImagesList(){
+
+        return con.promise().query("SELECT * FROM `pictures` ").then(([rows]) => {
+            return Object.values(rows)
+         });
+
     }
 
     DeleteRealty(id){

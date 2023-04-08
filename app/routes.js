@@ -29,12 +29,18 @@ module.exports = (app) => {
     });
 
     
-    app.get('/admin/realty/add', (req, res) => {
-        (new Realty()).RealtyAddForm(req, res);
+    app.get('/admin/realty/add', 
+        (req, res) => {
+         (new Realty()).RealtyAddForm(req, res);
     });
-    app.post('/admin/realty/add/ok', (req, res) => {
-        (new Realty()).RealtyAdd(req, res);
+
+    app.post('/admin/realty/add/ok',
+        require('express-fileupload')({createParentPath: true}),
+        require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            (new Realty()).RealtyAdd(req, res);
     });
+
     app.get('/admin/realty', (req, res) => {
         (new Realty()).RealtyList(req, res);
     });
@@ -42,7 +48,9 @@ module.exports = (app) => {
     app.get('/admin/realty/edit/:id', (req, res) => {
         (new Realty()).RealtyEditForm(req, res);
     });
-    app.put('/admin/realty/edit/:id', (req, res) => {
+    app.put('/admin/realty/edit/:id', 
+    require('express-fileupload')({createParentPath: true}),
+    require('../src/services/LcParserService.js'),  (req, res) => {
         (new Realty()).RealtyEdit(req, res);
     });
     
@@ -51,15 +59,15 @@ module.exports = (app) => {
     });
 
 
-    app.get("/user/form",(req,res)=>{
+    app.get("/admin/user/form",(req,res)=>{
 
-        new User().AddUserForm(req,res)
+        new UserAdmin().AddUserForm(req,res)
 
     })   
     
     app.post("/user/create",(req,res)=>{
 
-        new User().process(req,res)
+        new UserAdmin().process(req,res)
     })
 
     app.get('/connexion', (req, res) => {

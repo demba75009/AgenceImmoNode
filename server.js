@@ -4,6 +4,13 @@ const path = require('path');
 require('dotenv').config()
 const session = require('express-session');
 const methodOverride = require ("method-override")
+const mime = require('mime-types');
+const jwt = require('jsonwebtoken');
+const secretJwt = 'eyJeiwidHlwIjoiSyJhbGciOiJub25lIldUIn0Jub2wIjoiSldUIn0';
+const Cookies = require("cookies");
+
+
+
 
 
 //--------------------------------------------------------------------
@@ -30,9 +37,16 @@ app.use(session({
 
 // utiliser les sessions dans les vues
 app.use((req,res,next) => {
-  req.session.user = { id: 15, firstname: 'Demba', lastname : 'KANTE' };
-  res.locals.session = req.session;
-  res.locals.route = req._parsedUrl.pathname;
+  // req.session.user = { id: 15, firstname: 'Demba', lastname : 'KANTE' };
+  let token = new Cookies(req,res).get('access_token');
+
+  jwt.verify(token, secretJwt, (err, dataJwt) => { 
+
+    
+    req.session.user = dataJwt
+    res.locals.session = req.session;
+    res.locals.route = req._parsedUrl.pathname;
+  })
   next();
 });
 

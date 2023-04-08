@@ -1,7 +1,5 @@
-
-
-
 block content
+    link(rel="stylesheet", href="/css/realty-list.css")
     h1 Liste des biens
     
     if realties.length > 0 
@@ -11,6 +9,7 @@ block content
                     table.table.table-hover
                         thead 
                             tr 
+                                th 
                                 th Adresse 
                                 th ville 
                                 th code postal  
@@ -21,7 +20,13 @@ block content
                         tbody 
                             each realtie in realties 
 
-                                tr                                       
+                                tr   
+                                    td 
+                                     each picture in pictures
+                                      if picture.realty_id == realtie.id 
+                                       if picture.Ordre == 1 
+                                        img(class = "w-25 Image1" src=picture.url_path, alt=picture.url_path)                                    
+                                      
                                     td 
                                      a(href=`/realty/${realtie.id}`)=realtie.address1
                                      

@@ -16,9 +16,12 @@ module.exports = class Home {
          new RealtyModel().RealtyList(limit,offset).then(realties=>
              {
  
-                  
+                new RealtyModel().ImagesList().then(pictures=>{
+
  
-             res.render("home",{realties,page,totalPages})
+             res.render("home",{realties,page,totalPages,pictures})
+
+                })
              }
              )})
     }

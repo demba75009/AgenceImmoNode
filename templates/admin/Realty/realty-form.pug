@@ -3,6 +3,14 @@ extends ../layout.pug
 
 
 block content
+    template#tplContact
+        li 
+    template#tplImage
+        .onePicture 
+            img.productImg(src="")
+            
+    #{route}
+    link(rel="stylesheet", href="/css/addRealty.css")
    
 
     if realty
@@ -11,7 +19,7 @@ block content
      h1 Enregistrer un bien 
      if error 
         .alert.alert-danger #{error}
-    form(method="post"                                
+    form(method="post" enctype="multipart/form-data"                               
  action= realty.id ? `/admin/realty/edit/${realty.id}?_method=PUT` : "/admin/realty/add/ok" )
      
      h2 Adresse du bien
@@ -116,12 +124,20 @@ block content
      br     
      input(type="text" class="form-control" placeholder="Nombre de pièces" name="room" value=realty.room)
      br     
-      
-                                            
-     .col-lg-12
+     .lcUpload__block
+      .lcUpload__input
+        input.lcUpload__file(type="file" name="photos" id="file" data-multiple-caption="{count} fichiers sélectionnés" multiple)
+        label(for="file")
+            strong Choisissez le fichier
+            span.lcUpload__dragndrop  ou glissez le ici
+
+  
+     #lcUpoadList
+                                       
+     .col-lg-12.mt-5
         button.btn.btn-primary.center-block(type="submit") Enregistrer
  
 block scripts 
      script(src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js")
-     script(src="/javascript/admin.js") 
+     script(src="/js/admin/upload.js") 
 

@@ -1,6 +1,9 @@
 const UserModel = require("../../repository/UserModel");
 
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const Cookies = require("cookies");
+const secretJwt = 'eyJeiwidHlwIjoiSyJhbGciOiJub25lIldUIn0Jub2wIjoiSldUIn0';
 
 module.exports = class Authenticated {
     print(request, response) {
@@ -10,13 +13,24 @@ module.exports = class Authenticated {
      process(request, response) {
 
         new UserModel().getUserByEmail(request.body.email).then(async user=>{
+
+            if(user.length > 0){
+
+
+            
             const password = request.body.password
 
-            const match = await bcrypt.compare(password, user[0].password);
+            const match = user[0].password
+ 
+            if(match === password){
 
-            if(match){
+                let accessToken = jwt.sign({id:user[0].id,username: user[0].firstname,lastname: user[0].lastname, roles: "admin"}, secretJwt, {expiresIn: 604800});   
 
-                request.session.user = user;
+                request.user = accessToken
+
+                new Cookies(request,response).set('access_token', accessToken, {httpOnly: true, secure: false });
+        
+                // request.session.user = user;
 
                 request.flash('notify', 'Vous êtes bien connecté !');
                
@@ -30,7 +44,13 @@ module.exports = class Authenticated {
                 response.redirect("/connexion")
 
             }
+        }
+        else{
 
+            request.flash('error', 'Authentification incorrecte veuillez vérifiez vos informations !');
+
+            response.redirect("/connexion")
+        }
 
         })
 
