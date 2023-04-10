@@ -4,36 +4,37 @@ block content
     
     if realties.length > 0 
          .row
-            .col-md-12
+            .col-lg-8
                 .panel.panel-container
-                    table.table.table-hover
-                        thead 
-                            tr 
-                                th 
-                                th Adresse 
-                                th ville 
-                                th code postal  
-                                th Prix 
-                                th Piéce 
-                                th vendu
+                  each realtie in realties 
+                   a(href=`/realty/${realtie.id}`)
 
-                        tbody 
-                            each realtie in realties 
-
-                                tr   
-                                    td 
-                                     each picture in pictures
-                                      if picture.realty_id == realtie.id 
-                                       if picture.Ordre == 1 
-                                        img(class = "w-25 Image1" src=picture.url_path, alt=picture.url_path)                                    
-                                      
-                                    td 
-                                     a(href=`/realty/${realtie.id}`)=realtie.address1
-                                     
-                                    td= realtie.town
-                                    td= realtie.zipcode
-                                    td= realtie.price 
-                                    td= realtie.type
-                                    td= realtie.sold > 0 ? "yes" : "non"
-                                  
+                    .card.mt-2
+                     each picture in pictures
+                      if picture.realty_id == realtie.id 
+                       if picture.Ordre == 1 
+                        .d-flex
+                         .Image
+                          img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                         .description    
+                          h1(class="ms-5 mt-5 prix") #{realtie.price}$
+                          .d-flex.ms-5
+                            if realtie.type == 1
+                             p Appartement-
+                            if realtie.type == 2 
+                             p Maison-
+                            if realtie.type == 3 
+                             p Studio-
+                            if realtie.type == 4
+                             p Autre -
+                            p #{realtie.area}m²-
+                                        
+                            p #{realtie.town}- 
+                            p #{realtie.zipcode}
+                        
+                          p.ms-5.mt-5.text-secondary #{realtie.created_date}
+            .col-lg-4.d-flex.flex-column.justify-content-center.align-items-center.position-sticky
+             a(href="https://www.linkedin.com/in/demba-kante-68510714b/") 
+              img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
+             h2 KANTE DEMBA                
     include ../utils/paginateRealtyClient.pug 

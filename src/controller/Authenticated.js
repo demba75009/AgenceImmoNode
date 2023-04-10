@@ -57,7 +57,8 @@ module.exports = class Authenticated {
     }
 
     disconnect(request, response) {
-        request.session.user = null;
+        request.session.user == null;
+        console.log(request.session.user);
         request.flash('notify', 'Vous êtes maintenant déconnecté.');
         response.redirect('/');
     }

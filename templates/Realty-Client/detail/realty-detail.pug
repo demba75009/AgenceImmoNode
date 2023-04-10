@@ -1,10 +1,13 @@
 include ../../layout.pug 
 block content
-    
+    link(rel="stylesheet", href="/css/realty-detail.css")
     if realty 
         .container 
          .row
           .col-lg-8.offset-1
+           
+            each picture of pictures 
+             img(class="imageDetail" src=`/${picture.url_path}`, alt=picture.url_path) 
             h1 #{realty.type}-#{realty.area} m²-#{realty.address1}
                     
                     

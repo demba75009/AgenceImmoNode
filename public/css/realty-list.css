@@ -1,5 +1,19 @@
 .Image1{
 
-    width: 5rem;
-    height: 5rem;
+    width: 20rem;
+    height: 18rem;
+  
+}
+
+a{
+
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+
+    color: black;
+}
+.prix{
+    font-size: 1.5rem;
 }

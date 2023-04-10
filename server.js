@@ -42,8 +42,9 @@ app.use((req,res,next) => {
 
   jwt.verify(token, secretJwt, (err, dataJwt) => { 
 
-    
+    if (err) req.session.user == null
     req.session.user = dataJwt
+    req.user = dataJwt
     res.locals.session = req.session;
     res.locals.route = req._parsedUrl.pathname;
   })

@@ -65,8 +65,17 @@ module.exports = class Realty{
                 {
                     realty.type = "Autre"
 
-                }
-                res.render("Realty-Client/detail/realty-detail",{realty})
+                } 
+                new RealtyModel().ImagesList().then(picture=>{
+
+                    let pictures = picture.filter(p=> p.realty_id === realty.id).map(p=>p)
+
+                    console.log(pictures);
+
+                    
+                    res.render("Realty-Client/detail/realty-detail",{realty,pictures})
+       
+                       })
             
             
             })
@@ -196,7 +205,7 @@ module.exports = class Realty{
                                         ordre:index+1
 
 
-                                    }
+                                    } 
 
                                     new RealtyModel().addRealtyPicture(picture).then(r=>{
 
