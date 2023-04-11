@@ -4,7 +4,7 @@ const UserAdmin = require("../src/controller/UserAdmin.js")
 const Authenticated = require('../src/controller/Authenticated.js');
 const Dashboard = require('../src/controller/Dashboard.js');
 const Realty = require('../src/controller/Realty.js');
-
+const Contact = require("../src/controller/Contact.js")
 module.exports = (app) => {
     // app.get('/', (req, res) => {
     //     new Home().print(req, res)    });
@@ -28,7 +28,20 @@ module.exports = (app) => {
         (new UserAdmin()).UserList(req, res);
     });
 
+    app.get('/admin/contact', (req, res) => {
+        (new Contact()).ContactList(req, res);
+    });
+    app.delete('/admin/contact-list/delete/:id', (req, res) => {
+        (new Contact()).ContactDelete(req, res);
+    });
+
     
+
+    app.get('/realty/add/form', 
+        (req, res) => {
+         (new Realty()).RealtyAddFormClient(req, res);
+    });
+
     app.get('/admin/realty/add', 
         (req, res) => {
          (new Realty()).RealtyAddForm(req, res);

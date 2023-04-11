@@ -1,6 +1,6 @@
 const RealtyModel = require("../../repository/RealtyModel")
 const ContactModel = require("../../repository/ContactModel")
-const UploadImageProductService = require("../services/UploadImageProduct")
+const UploadImageProductService = require("../services/UploadImageProduct") 
 module.exports = class Realty{
 
 
@@ -40,7 +40,7 @@ module.exports = class Realty{
             }
            
             }
-
+ 
         RealtySingle(req,res){
 
             new RealtyModel().getRealtyById(req.params.id).then(realties=>{
@@ -70,11 +70,17 @@ module.exports = class Realty{
 
                     let pictures = picture.filter(p=> p.realty_id === realty.id).map(p=>p)
 
-                    console.log(pictures);
 
+
+                    new ContactModel().getContactById(realty.contact_id).then( conctacts=>{
+            
+
+                        let contact = conctacts[0]
                     
-                    res.render("Realty-Client/detail/realty-detail",{realty,pictures})
+                    res.render("Realty-Client/detail/realty-detail",{realty,pictures,contact})
        
+
+                    })
                        })
             
             
@@ -155,7 +161,7 @@ module.exports = class Realty{
                                         req.flash('notify', `Le bien a été enregistré`);
                                         let user = req.user
 
-                                        res.redirect('/admin/realty',{user});
+                                        res.redirect('/',{user});
                                     })
 
                                 })
@@ -173,10 +179,13 @@ module.exports = class Realty{
                 else{
 
                 
-                    new ContactModel().addContact(contact)
-    
+                    new ContactModel().addContact(contact).then( res1=>{
+
+
+                  
                     new ContactModel().getContactByEmail(contact.email).then(response1=>{
     
+                        console.log(response1);
       
                     realty.contact_id = response1[0].id
                     new RealtyModel().addRealty(realty).then( response=>{
@@ -212,7 +221,7 @@ module.exports = class Realty{
                                         let user = req.user
 
                                         req.flash('success', `Le bien a été enregistré`);
-                                        res.redirect('/admin/realty',user);
+                                        res.redirect('/',user);
                                     })
 
                                 })
@@ -223,6 +232,8 @@ module.exports = class Realty{
                         )
 
                   })
+                })
+
                 }
 
 
@@ -235,6 +246,12 @@ module.exports = class Realty{
             let user = req.user
 
             res.render("admin/Realty/realty-form",{realty:0,user})
+        }  
+
+        RealtyAddFormClient(req,res){
+            let user = req.user
+
+            res.render("Realty-Client/realty-form",{realty:0,user})
         }  
 
         RealtyEdit(req,res){

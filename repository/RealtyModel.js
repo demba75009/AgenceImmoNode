@@ -38,6 +38,12 @@ module.exports = class RealtyModel {
          });
     }
 
+    DeleteRealtyByContact(id){
+        return con.promise().query(`DELETE FROM realties WHERE contact_id="${id}"`).then(() => {
+            console.log("ok");
+         });
+    }
+
 
     RealtyCount (){
 

@@ -1,0 +1,43 @@
+extends ../layout.pug
+
+block breadcrumb  
+    li
+        a(href='#')
+            em(class='fa fa-contact')
+        li(class='active')   &nbsp; &nbsp;Les utilisateurs
+        
+
+block content
+    .row
+        .col-md-12
+            .panel.panel-container
+                .panel.panel-default.articles
+                    .panel-heading Liste des contacts
+                            
+    if contacts.length > 0 
+        .row
+            .col-md-12
+                .panel.panel-container
+                    table.table.table-hover
+                        thead 
+                            tr 
+                                th
+                                th Nom 
+                                th Prénom 
+                                th Email  
+                                th Phone  
+                                th(style="width:1%;")  
+                                th(style="width:1%;")  
+                        tbody 
+                            each contact in contacts 
+                                tr 
+                                    td= contact.id                                    
+                                    td= contact.lastname
+                                    td= contact.firstname
+                                    td= contact.email
+                                    td= contact.phone
+                                   
+                                    td
+                                        form( method = "post"  enctype="application/x-www-form-urlencoded" action=`/admin/contact-list/delete/${contact.id}?_method=DELETE` )  
+                                         button(class="btn btn-danger") Supprimez
+        include ../../utils/paginateContact.pug 

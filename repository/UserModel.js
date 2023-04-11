@@ -13,7 +13,7 @@ module.exports = class UserModel {
     }
 
     UserList(limit,offset){
-
+ 
         return con.promise().query(`SELECT * FROM users LIMIT ${limit} OFFSET ${offset} `).then(([rows]) => {
             return Object.values(rows)
          });
