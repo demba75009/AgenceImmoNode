@@ -88,7 +88,7 @@ module.exports = class Realty{
 
         }    
         
-        RealtyAdd(req,res){
+        RealtyAddClient(req,res){
 
             const contact = {
 
@@ -161,7 +161,7 @@ module.exports = class Realty{
                                         req.flash('notify', `Le bien a été enregistré`);
                                         let user = req.user
 
-                                        res.redirect('/',{user});
+                                        res.redirect('/');
                                     })
 
                                 })
@@ -221,7 +221,7 @@ module.exports = class Realty{
                                         let user = req.user
 
                                         req.flash('success', `Le bien a été enregistré`);
-                                        res.redirect('/',user);
+                                        res.redirect('/');
                                     })
 
                                 })
@@ -269,6 +269,21 @@ module.exports = class Realty{
             })
 
         }    
+        RealtyEditClient(req,res){
+
+             new RealtyModel().UpdateRealty(req.body,req.params.id).then(response=>{
+    
+                let id = req.params.id
+
+                let user = req.user
+
+                req.flash('notify', `Votre bien ${id} bien modifiez ! `);
+                res.redirect('/profil');
+                        
+        
+            })
+
+        }    
 
         RealtyEditForm(req,res){
 
@@ -284,7 +299,35 @@ module.exports = class Realty{
 
         }    
 
+        RealtyEditFormClient(req,res){
 
+             new RealtyModel().getRealtyById(req.params.id).then(response=>{
+    
+                const realty = response[0];
+                console.log(realty);
+        
+                let user = req.user
+
+                res.render("Realty-Client/realty-form",{realty,user})
+            })
+
+        }    
+
+
+         RealtyDelete(req,res){
+
+            
+           new RealtyModel().DeleteRealty(req.params.id)
+
+                req.flash("notify",`bien ${req.params.id} supprimé !`)
+           
+
+                res.redirect("/profile")
+        
+                
+
+
+         }   
          RealtyDelete(req,res){
 
             

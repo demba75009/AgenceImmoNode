@@ -15,6 +15,16 @@ module.exports = (app) => {
         new Home().print(req,res)
 
     })   
+
+    app.get("/profil",(req,res)=>{
+
+        new Home().profil(req,res)
+
+    })   
+
+
+
+
     app.get("/realty/:id",(req,res)=>{
 
         new Realty().RealtySingle(req,res)
@@ -42,6 +52,31 @@ module.exports = (app) => {
         (req, res) => {
          (new Realty()).RealtyAddFormClient(req, res);
     });
+
+    app.post('/realty/add/ok',
+        require('express-fileupload')({createParentPath: true}),
+        require('../src/services/LcParserService.js'), 
+        (req, res) => {
+            (new Realty()).RealtyAddClient(req, res);
+    });
+
+
+    app.get('/realty/edit/:id', (req, res) => {
+        (new Realty()).RealtyEditFormClient(req, res);
+    });
+
+    app.put('/realty/edit/:id', 
+    require('express-fileupload')({createParentPath: true}),
+    require('../src/services/LcParserService.js'),  (req, res) => {
+        (new Realty()).RealtyEditClient(req, res);
+    });
+
+
+    app.delete('/realty/delete/:id', (req, res) => {
+        (new Realty()).RealtyDeleteClient(req, res);
+    });
+
+
 
     app.get('/admin/realty/add', 
         (req, res) => {

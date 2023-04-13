@@ -20,7 +20,7 @@ block content
      if error 
         .alert.alert-danger #{error}
     form(method="post" enctype="multipart/form-data"                               
- action= realty.id ? `/admin/realty/edit/${realty.id}?_method=PUT` : "/admin/realty/add/ok" )
+ action= realty.id ? `/realty/edit/${realty.id}?_method=PUT` : "/realty/add/ok" )
      
      h2 Adresse du bien
                 
