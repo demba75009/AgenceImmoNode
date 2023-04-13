@@ -5,6 +5,7 @@ const Authenticated = require('../src/controller/Authenticated.js');
 const Dashboard = require('../src/controller/Dashboard.js');
 const Realty = require('../src/controller/Realty.js');
 const Contact = require("../src/controller/Contact.js")
+const Register = require("../src/controller/Register.js")
 module.exports = (app) => {
     // app.get('/', (req, res) => {
     //     new Home().print(req, res)    });
@@ -71,6 +72,16 @@ module.exports = (app) => {
         (new Realty()).RealtyDelete(req, res);
     });
 
+    app.get("/user/inscription/form",(req,res)=>{
+
+        new Register().AddUserForm(req,res)
+
+    }) 
+    app.post("/user/user-client/create",(req,res)=>{
+
+        new Register().process(req,res)
+
+    }) 
 
     app.get("/admin/user/form",(req,res)=>{
 

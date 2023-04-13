@@ -14,7 +14,10 @@ module.exports = class User{
     process(req, res) {
        
 
-      new UserModel().addUser(req.body)
+      let user = req.body
+
+      user.roles = "client"
+      new UserModel().addUser(user)
 
       req.flash('notify', 'Votre compte a bien été créé.');
       res.redirect("/")
