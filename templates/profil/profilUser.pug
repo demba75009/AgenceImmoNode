@@ -5,8 +5,11 @@ block content
             
     
   .d-flex.flex-column.justify-content-center.align-items-center 
-   img(src="/assets/avatar.png" alt="mdo" class="w-25  rounded-circle ms-2")
-   h1 #{user.username} - #{user.lastname}
+    if session && session.user && session.user.civility === "M"
+     img(src="/assets/avatar.png" alt="mdo" class="w-25  rounded-circle ms-2")
+    else 
+     img(src="/assets/avatar-femme.png" alt="mdo" class="w-25 ms-2")
+    h1 #{user.username} - #{user.lastname}
 
 
   h2 Vos Annonces : 

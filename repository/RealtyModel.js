@@ -22,7 +22,8 @@ module.exports = class RealtyModel {
             return Object.values(rows)
          });
     }
-
+    
+    
     ImagesList(){
 
         return con.promise().query("SELECT * FROM `pictures` ").then(([rows]) => {

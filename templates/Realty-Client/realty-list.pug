@@ -1,12 +1,16 @@
 block content
     link(rel="stylesheet", href="/css/realty-list.css")
-    .float-end.mt-2
+              
+    .d-flex.mt-5.justify-content-between 
+     h1 Liste des biens
+     form(class="search") 
+      input(type="text" placeholder="ville" class="w-50") 
+      button ok
      if session && session.user
-      a.btn.btn-primary(href="/realty/add/form") Ajouter un bien          
-    
-    h1 Liste des biens
+      a.btn.btn-primary(href="/realty/add/form") Ajouter un bien 
+
     if realties.length > 0 
-         .row
+         .row.mt-5
             .col-lg-8
                 .panel.panel-container
                   each realtie in realties 

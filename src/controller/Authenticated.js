@@ -24,7 +24,7 @@ module.exports = class Authenticated {
  
             if(match === password){
 
-                let accessToken = jwt.sign({id:user[0].id,username: user[0].firstname,lastname: user[0].lastname, roles: user[0].roles}, secretJwt, {expiresIn: 604800});   
+                let accessToken = jwt.sign({civility:user[0].civility,id:user[0].id,username: user[0].firstname,lastname: user[0].lastname, roles: user[0].roles}, secretJwt, {expiresIn: 604800});   
 
                 request.user = accessToken
 

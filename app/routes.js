@@ -16,8 +16,16 @@ module.exports = (app) => {
 
     })   
 
-    app.get("/profil",(req,res)=>{
+    app.get("/:city",(req,res)=>{
 
+        new Home().searchCity(req,res)
+
+
+    })
+
+
+    app.get("/profil",(req,res)=>{
+ 
         new Home().profil(req,res)
 
     })   
@@ -46,7 +54,7 @@ module.exports = (app) => {
         (new Contact()).ContactDelete(req, res);
     });
 
-    
+  
 
     app.get('/realty/add/form', 
         (req, res) => {

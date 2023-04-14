@@ -17,3 +17,7 @@ a:hover{
 .prix{
     font-size: 1.5rem;
 }
+
+::placeholder {
+    text-align: center; 
+ }

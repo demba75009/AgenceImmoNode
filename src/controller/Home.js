@@ -58,6 +58,39 @@ module.exports = class Home {
 
    }
 
+   searchCity(req,res){
+
+      
+      let city = req.params.city
+      let limit = 20; // nombre d'éléments par page
+    
+      let page = parseInt(req.query.page) || 1;
+      let offset = (page - 1) * limit;
+
+      new RealtyModel().RealtyCount().then(total=> {
+       
+       const totalPages = Math.ceil(total[0].realties/limit)
+
+
+       new RealtyModel().RealtyList(limit,offset).then(realtiesMultiples=>
+           {
+
+            const realties = realtiesMultiples.filter(r =>r.town.includes(city)).map(r=>r)
+           
+              new RealtyModel().ImagesList().then(pictures=>{
+
+               console.log(realties);
+
+           res.render("home",{realties,page,totalPages,pictures})
+
+              })
+           }
+           )})
+
+
+
+   }
+
     }
     
 
