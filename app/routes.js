@@ -16,13 +16,7 @@ module.exports = (app) => {
 
     })   
 
-    app.get("/:city",(req,res)=>{
-
-        new Home().searchCity(req,res)
-
-
-    })
-
+   
 
     app.get("/profil",(req,res)=>{
  
@@ -30,7 +24,7 @@ module.exports = (app) => {
 
     })   
 
-
+    
 
 
     app.get("/realty/:id",(req,res)=>{
@@ -151,7 +145,13 @@ module.exports = (app) => {
         (new Authenticated()).disconnect(req, res);
       });
       
-    
+      app.get("/:city",(req,res)=>{
+
+        new Home().searchCity(req,res)
+
+
+    })
+
 
 };
 

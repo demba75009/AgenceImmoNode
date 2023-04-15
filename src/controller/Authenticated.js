@@ -30,8 +30,7 @@ module.exports = class Authenticated {
 
                 new Cookies(request,response).set('access_token', accessToken, {httpOnly: true, secure: false });
         
-                // request.session.user = user;
-
+              
                 request.flash('notify', 'Vous êtes bien connecté !');
                
                 response.redirect("/")

@@ -1,14 +1,18 @@
+extends ../layout.pug
 block content
     link(rel="stylesheet", href="/css/realty-list.css")
-               
-    .d-flex.mt-5.justify-content-between 
-     h1 Liste des biens
+    div(class="d-flex mt-5  justify-content-between ") 
+     h1 Resultats pour "#{city}"
      form(class="search") 
-      input(type="text" placeholder="ville" class="w-75") 
+      input(type="text" class="w-75" placeholder="ville" ) 
       button ok
      if session && session.user
       a.btn.btn-primary.h-25(href="/realty/add/form") Ajouter un bien 
 
+
+    if realties.length == 0
+     h1.text-center.mt-5  Pas de résultats veuillez refaire une recherche
+    
     if realties.length > 0 
          .row.mt-5
             .col-lg-8
@@ -36,12 +40,13 @@ block content
                              p Autre -
                             p #{realtie.area}m²-
                                         
-                            p #{realtie.town}- 
+                            p.town #{realtie.town}- 
                             p #{realtie.zipcode}
                         
                           p.ms-5.mt-5.text-secondary #{realtie.created_date}
-            .col-lg-4.d-flex.flex-column.justify-content-center.align-items-center.sticky-top
+                          
+            .col-lg-4.d-flex.flex-column.justify-content-center.align-items-center.position-sticky
              a(href="https://www.linkedin.com/in/demba-kante-68510714b/") 
               img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
              h2 KANTE DEMBA                
-    include ../utils/paginateRealtyClient.pug 
+            include ../utils/paginateRealtyClient.pug     

@@ -46,7 +46,6 @@ module.exports = class Home {
 
             let realties = realtiesMultiple.filter(r=>r.user_id == user.id)
            
-            console.log(realties);
               new RealtyModel().ImagesList().then(pictures=>{
 
            
@@ -79,9 +78,8 @@ module.exports = class Home {
            
               new RealtyModel().ImagesList().then(pictures=>{
 
-               console.log(realties);
 
-           res.render("home",{realties,page,totalPages,pictures})
+               res.render("Realty-Client/realty-result",{city,realties,page,totalPages,pictures})
 
               })
            }

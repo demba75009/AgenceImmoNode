@@ -8,10 +8,11 @@ const mime = require('mime-types');
 const jwt = require('jsonwebtoken');
 const secretJwt = 'eyJeiwidHlwIjoiSyJhbGciOiJub25lIldUIn0Jub2wIjoiSldUIn0';
 const Cookies = require("cookies");
+const http = require('http');
 
-
-
-
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
 
 //--------------------------------------------------------------------
 //      Mise en place du moteur de template
@@ -39,10 +40,14 @@ app.use(session({
 app.use((req,res,next) => {
   // req.session.user = { id: 15, firstname: 'Demba', lastname : 'KANTE' };
   let token = new Cookies(req,res).get('access_token');
-
+  io.on('connection', (socket) => {
+    console.log('a user connected');
+  });
   jwt.verify(token, secretJwt, (err, dataJwt) => { 
 
     if (err) req.session.user == null
+   
+    
     req.session.user = dataJwt
     req.user = dataJwt
     res.locals.session = req.session;
@@ -72,7 +77,9 @@ require('./app/routes')(app);
 //--------------------------------------------------------------------
 //     Ecoute du serveur HTTP
 //--------------------------------------------------------------------
-app.listen(process.env.PORT,() => {
+ server.listen(process.env.PORT,() => {
     if (process.env.APP_ENV == 'dev' && process.send) {  process.send('online'); }
       console.log(`Le serveur est démarré : http://localhost:${process.env.PORT}`)
     });
+
+
