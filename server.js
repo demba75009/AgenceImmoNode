@@ -40,16 +40,17 @@ app.use(session({
 app.use((req,res,next) => {
   // req.session.user = { id: 15, firstname: 'Demba', lastname : 'KANTE' };
   let token = new Cookies(req,res).get('access_token');
-  io.on('connection', (socket) => {
-    console.log('a user connected');
-  });
+ 
   jwt.verify(token, secretJwt, (err, dataJwt) => { 
 
     if (err) req.session.user == null
    
-    
-    req.session.user = dataJwt
     req.user = dataJwt
+
+    io.on('connection', (socket) => {
+      console.log(`${req.user.id} is connected`);
+    });
+    req.session.user = dataJwt
     res.locals.session = req.session;
     res.locals.route = req._parsedUrl.pathname;
   })

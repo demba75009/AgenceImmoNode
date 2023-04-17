@@ -34,6 +34,13 @@ module.exports = class UserModel {
          }).catch(err=> {return err});
    
     } 
+    getUserById(id) {
+
+        return con.promise().query(`SELECT * FROM users WHERE id="${id}"`).then(([rows]) => {
+            return Object.values(rows)
+         }).catch(err=> {return err});
+   
+    } 
 
 
 }

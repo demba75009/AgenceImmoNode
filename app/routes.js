@@ -6,6 +6,7 @@ const Dashboard = require('../src/controller/Dashboard.js');
 const Realty = require('../src/controller/Realty.js');
 const Contact = require("../src/controller/Contact.js")
 const Register = require("../src/controller/Register.js")
+const Chat = require("../src/controller/Chat.js")
 module.exports = (app) => {
     // app.get('/', (req, res) => {
     //     new Home().print(req, res)    });
@@ -15,7 +16,6 @@ module.exports = (app) => {
         new Home().print(req,res)
 
     })   
-
    
 
     app.get("/profil",(req,res)=>{
@@ -24,14 +24,26 @@ module.exports = (app) => {
 
     })   
 
-    
-
 
     app.get("/realty/:id",(req,res)=>{
 
         new Realty().RealtySingle(req,res)
 
     })   
+
+
+
+    app.get("/realty/:id/contact/:contact",(req,res)=>{
+
+        new Chat().Get(req,res)
+
+    })   
+    app.post("/realty/:id/contact/:contact",(req,res)=>{
+
+        new Chat().Add(req,res)
+
+    })   
+
 
     app.get('/admin', (req, res) => {
         (new Dashboard()).print(req, res);
@@ -151,6 +163,7 @@ module.exports = (app) => {
 
 
     })
+
 
 
 };

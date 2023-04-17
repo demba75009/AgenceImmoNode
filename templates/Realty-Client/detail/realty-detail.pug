@@ -44,9 +44,11 @@ block content
                 h2.text-center 
                  a(href=`tel:+${contact.phone}`) #{contact.phone}
               .card-body.d-flex.justify-content-center 
-                a.btn.btn-primary Envoyez lui un message
+                a.btn.btn-primary(href=`/realty/${realty.id}/contact/${contact.lastname}`) Envoyez lui un message
 
 
+block script
+ script(src="/js/chat.js")  
 
 
                     //- table.table.table-hover
