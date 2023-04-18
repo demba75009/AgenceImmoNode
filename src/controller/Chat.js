@@ -34,12 +34,12 @@ module.exports = class Chat{
 
 
 
-                    let messages = messageMultiple.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive === userChat.id).map(m=>m)
+                    let messagesChat = messageMultiple.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive === userChat.id).map(m=>m)
 
                     let user = req.user
 
-                    console.log(messages);
-                    res.render("Realty-Client/chat/chat-list",{contact,userChat,realty,pictures,messages,user})
+                    console.log(messagesChat);
+                    res.render("Realty-Client/chat/chat-list",{contact,userChat,realty,pictures,messagesChat,user})
                 })
                 
                     }
@@ -81,13 +81,17 @@ module.exports = class Chat{
                     
                     }
 
+                    let user = req.user
                     
 
                     new MessageModel().addMessage(message).then(response=>{
 
                         req.flash("message envoyer ! ")
-                        res.redirect("/")
+                    
+                        this.Get(req,res)
+                    
                     })
+                       
             
 
             })

@@ -10,9 +10,11 @@ block content
   h1.align-self-end #{userChat.lastname} - #{userChat.firstname}
  p.ms-5 Annonce : #{realty.room} pièces-#{realty.area} m²- #{realty.town}-#{realty.zipcode}
 
- each m in messages
-    h3 #{user.lastname} 
-    h2=m.id
+ each m in messagesChat
+    .d-flex.align-items-end
+     strong #{user.lastname} - 
+     span #{m.contenu}
+    p #{m.created_date}
  form(action=`/realty/${realty.id}/contact/${contact.lastname}` method="post" class="d-flex h-75 justify-content-center align-items-end")
   textarea(name="dialogue", cols="80", rows="5") 
   button.ms-5 envoyer   
