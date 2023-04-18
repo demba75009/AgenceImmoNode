@@ -1,0 +1,8 @@
+extends ../layout.pug 
+
+block content
+  each m in conversation
+   .card.mt-5
+    each r in singleRealty
+     h1=m.lastMessage
+     h2=r.address1

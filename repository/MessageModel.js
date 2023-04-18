@@ -8,6 +8,28 @@ module.exports = class MessageModel {
 
     }
 
+    
+    updateConversation(message){
+        return con.promise().query(`UPDATE conversation SET lastMessage ="${message.contenu}" WHERE realty_id = ${message.id_realty} AND user_id_Send = ${message.UserSend} AND user_id_Receive = ${message.UserReceive};`)
+
+    }
+
+    addConversation(message){
+        return con.promise().query(`INSERT INTO conversation (realty_id,user_id_Send,user_id_Receive,lastMessage) values ("${message.id_realty}","${message.UserSend}","${message.UserReceive}","${message.contenu}");`)
+
+    }
+
+    getConversationbyId(message){
+
+        return con.promise().query(`SELECT * FROM conversation WHERE realty_id = ${message.id_realty} AND user_id_Send = ${message.UserSend} AND user_id_Receive = ${message.UserReceive};`).then(([rows]) => {
+            return Object.values(rows)
+         });    }
+
+    getConversation(){
+
+        return con.promise().query("SELECT * FROM `conversation` ").then(([rows]) => {
+            return Object.values(rows)
+         });    }
 
     getmessage(){
 

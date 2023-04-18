@@ -17,6 +17,15 @@ module.exports = (app) => {
 
     })   
    
+    app.get("/message/:id",(req,res)=>{
+
+        new Chat().MessagesReçu(req,res)
+
+    })   
+
+
+
+
 
     app.get("/profil",(req,res)=>{
  

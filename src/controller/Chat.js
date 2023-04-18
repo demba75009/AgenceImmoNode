@@ -34,7 +34,7 @@ module.exports = class Chat{
 
 
 
-                    let messagesChat = messageMultiple.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive === userChat.id).map(m=>m)
+                    let messagesChat = messageMultiple.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive === userChat.id && m.realty_id === realty.id).map(m=>m)
 
                     let user = req.user
 
@@ -86,10 +86,47 @@ module.exports = class Chat{
 
                     new MessageModel().addMessage(message).then(response=>{
 
-                        req.flash("message envoyer ! ")
+                     
+                      new MessageModel().getConversationbyId(message).then(conv => {
+
+
+                        if(conv.length > 0)
+
+                        {
+
+                            new MessageModel().updateConversation(message).then( response2 =>{
+                                req.flash("message envoyer ! ")
+                            
+                                this.Get(req,res)
+                            
+
+                                
+                             }
+                             )
+                            
+
+                        }
+                    else{
+
+
+                        
+                        
+                          
+                       new MessageModel().addConversation(message).then( response2 =>{
+                          req.flash("message envoyer ! ")
+                      
+                          this.Get(req,res)
+                      
+  
+                       }
+                       )
+                    }
+                      })  
                     
-                        this.Get(req,res)
-                    
+
+                        
+
+                        
                     })
                        
             
@@ -100,6 +137,45 @@ module.exports = class Chat{
 
       
 
+
+
+    }
+
+
+    MessagesReçu(req,res){
+
+
+        
+        new MessageModel().getConversation().then(messageMultiple=>{
+
+
+            let conversation = messageMultiple.filter(c=>c.user_id_Receive == req.user.id).map(c=>c)
+                
+            const realty = conversation.map(r=>r.realty_id)       
+           
+            for (let r of realty){
+
+              new RealtyModel().getRealtyById(r).then(realties=>{
+
+                    let singleRealty = realties
+                    console.log(singleRealty);
+                
+                    res.render("profil/Messages.pug",{conversation,singleRealty})
+
+                }
+
+                )
+
+                
+            }
+
+            
+
+
+
+
+
+        })
 
 
     }

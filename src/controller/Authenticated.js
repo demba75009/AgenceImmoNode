@@ -57,7 +57,11 @@ module.exports = class Authenticated {
 
     disconnect(request, response) {
         request.session.user == null;
-        console.log(request.session.user);
+        let accessToken = jwt.sign({civility:""}, secretJwt, {expiresIn:0});   
+        
+        request.user = accessToken
+        new Cookies(request,response).set('access_token', accessToken, {httpOnly: true, secure: false }); 
+        
         request.flash('notify', 'Vous êtes maintenant déconnecté.');
         response.redirect('/');
     }

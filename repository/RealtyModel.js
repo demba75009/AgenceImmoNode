@@ -32,6 +32,14 @@ module.exports = class RealtyModel {
 
     }
 
+    GetRealty(){
+
+        return con.promise().query("SELECT * FROM `realties` ").then(([rows]) => {
+            return Object.values(rows)
+         });
+
+    }
+
     DeleteRealty(id){
 
         return con.promise().query(`DELETE FROM realties WHERE id="${id}"`).then(() => {
