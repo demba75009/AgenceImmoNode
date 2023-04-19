@@ -42,6 +42,18 @@ module.exports = (app) => {
 
 
 
+    app.get("/realty/:id/contactResponse/:userSend",(req,res)=>{
+
+        new Chat().GetChatReçu(req,res)
+
+    }) 
+
+    app.post("/realty/:id/contactResponse/:userReceive",(req,res)=>{
+
+        new Chat().ResponseChat(req,res)
+
+    }) 
+
     app.get("/realty/:id/contact/:contact",(req,res)=>{
 
         new Chat().Get(req,res)

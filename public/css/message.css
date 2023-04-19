@@ -1,0 +1,15 @@
+table{
+
+    margin: auto;
+}
+table,
+td {
+    border: 1px solid #333;
+}
+
+tbody tr{
+
+
+padding: 2rem;
+
+}

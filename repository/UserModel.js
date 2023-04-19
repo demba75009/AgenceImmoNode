@@ -19,6 +19,13 @@ module.exports = class UserModel {
          });
     }
 
+    GetUser(){
+ 
+        return con.promise().query(`SELECT * FROM users`).then(([rows]) => {
+            return Object.values(rows)
+         });
+    }
+
 
     UserCount (){
 
