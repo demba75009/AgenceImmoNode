@@ -16,16 +16,8 @@ html(lang="fr")
 
 
                     #navbarToggler.collapse.navbar-collapse
-                        ul.navbar-nav.mr-auto.mt-2.mt-lg-0
-                          
-                            if session && session.user
-                             
-                                
-                            else                                     
-                              li.nav-item.active
-                               a.nav-link(href='/connexion') Connexion  
-                              li.nav-item.active
-                               a.nav-link(href='/user/inscription/form') Inscription
+                                                           
+                              
                     if session && session.user
                          button(class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation")
                             span(class="navbar-toggler-icon")
@@ -53,6 +45,12 @@ html(lang="fr")
                                   hr(class="dropdown-divider")
                                  li
                                   a(class="dropdown-item" href="/deconnexion") Se déconnecter
+                    else 
+                         ul.d-flex.justify-content-evenly.list-inline 
+                            li.nav-item.active
+                               a.nav-link(href='/connexion') Connexion  
+                            li.nav-item.active
+                               a.nav-link(href='/user/inscription/form') Inscription              
                                 
 
                 - var messages = getMessages()

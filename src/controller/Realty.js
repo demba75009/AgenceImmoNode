@@ -1,5 +1,6 @@
 const RealtyModel = require("../../repository/RealtyModel")
 const ContactModel = require("../../repository/ContactModel")
+const UserModel = require("../../repository/UserModel")
 const UploadImageProductService = require("../services/UploadImageProduct") 
 module.exports = class Realty{
 
@@ -43,6 +44,8 @@ module.exports = class Realty{
  
         RealtySingle(req,res){
 
+            let user = req.user
+
             new RealtyModel().getRealtyById(req.params.id).then(realties=>{
                 
                 let realty=realties[0]
@@ -72,16 +75,25 @@ module.exports = class Realty{
 
 
 
+                    new UserModel().getUserById(realty.user_id).then( users =>{
+
+                    
+
+                        let UserRealty = users[0]
+
+                    
                     new ContactModel().getContactById(realty.contact_id).then( conctacts=>{
             
 
                         let contact = conctacts[0]
                     
-                    res.render("Realty-Client/detail/realty-detail",{realty,pictures,contact})
+                    res.render("Realty-Client/detail/realty-detail",{realty,pictures,contact,UserRealty,user})
        
 
                     })
                        })
+
+                    })
             
             
             })
@@ -120,13 +132,13 @@ module.exports = class Realty{
     
             }     
 
-            new ContactModel().getContactByEmail(contact.email).then(async response=>{
+            new ContactModel().getContactByEmail(contact.email).then(async responseContact=>{
             
-                if(response[0]){
+                if(responseContact[0]){
 
-                    new ContactModel().UpdateContact(contact,response[0].id)
+                    new ContactModel().UpdateContact(contact,responseContact[0].id)
 
-                    realty.contact_id = response[0].id
+                    realty.contact_id = responseContact[0].id
                     console.log("realty:",realty);
                     new RealtyModel().addRealty(realty).then( response=>{
                         
@@ -159,7 +171,6 @@ module.exports = class Realty{
                                     new RealtyModel().addRealtyPicture(picture).then(r=>{
 
                                         req.flash('notify', `Le bien a été enregistré`);
-                                        let user = req.user
 
                                         res.redirect('/');
                                     })
@@ -327,7 +338,7 @@ module.exports = class Realty{
 
 
          }   
-         RealtyDelete(req,res){
+         RealtyDeleteAdmin(req,res){
 
             
            new RealtyModel().DeleteRealty(req.params.id)
