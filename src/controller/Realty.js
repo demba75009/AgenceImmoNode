@@ -218,7 +218,6 @@ module.exports = class Realty{
 
                                     new RealtyModel().addRealtyPicture(picture).then(r=>{
 
-                                        let user = req.user
 
                                         req.flash('success', `Le bien a été enregistré`);
                                         res.redirect('/');

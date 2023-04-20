@@ -181,7 +181,7 @@ module.exports = class Chat{
                             new MessageModel().updateConversation(message).then( response2 =>{
                                 req.flash("message envoyer ! ")
                             
-                                this.GetChatReçu(req,res)
+                                this.GetChatResponseReçu(req,res,userR)
                             
 
                                 
@@ -199,7 +199,7 @@ module.exports = class Chat{
                        new MessageModel().addConversation(message).then( response2 =>{
                           req.flash("message envoyer ! ")
                       
-                          this.GetChatReçu(req,res)
+                          this.GetChatResponseReçu(req,res,userR)
                       
   
                        }
@@ -221,6 +221,60 @@ module.exports = class Chat{
  
     }
 
+    GetChatResponseReçu(req,res,receive){
+
+        let userSend = receive
+
+        new RealtyModel().getRealtyById(req.params.id).then(realties=>{
+                
+            let realty=realties[0]
+            
+            new RealtyModel().ImagesList().then(picture=>{
+
+                let pictures = picture.filter(p=> p.realty_id === realty.id).map(p=>p)
+
+
+
+                new ContactModel().getContactById(realty.contact_id).then( conctacts=>{
+        
+
+                    let contact = conctacts[0]
+
+                new UserModel().getUserById(userSend).then(userMultiple =>
+                    
+                    {
+                        
+                let userChat = userMultiple[0]
+
+
+                new MessageModel().getmessage().then(messageMultiple=>{
+
+
+
+                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == req.user.id) && (m.user_id_Receive || m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
+
+                    let user = req.user
+
+                    let messageDiscution = messagesChat.filter(m=>m.realty_id == realty.id).map(m=>m)
+
+
+                    res.render("Realty-Client/chat/chat-list-discution",{contact,userChat,realty,pictures,messageDiscution,user})
+                })
+                
+                    }
+                )    
+                
+
+   
+
+                })
+                   })
+        
+        
+        })
+
+
+    }
 
     MessagesReçu(req,res){
 
@@ -233,7 +287,7 @@ module.exports = class Chat{
                 
             const realty = conversation.map(r=>r.realty_id)  
 
-            const user = conversation.map(u=>u.user_id_Send)       
+            const userss = conversation.map(u=>u.user_id_Send)       
            
 
 
@@ -253,15 +307,16 @@ module.exports = class Chat{
 
                     let userMessage = []
 
-                    for(let u in user){
+                    for(let u in userss){
 
-                        let ur = users.find(r=>r.id === user[u])
+                        let ur = users.find(r=>r.id === userss[u])
                         if(!userMessage.includes(ur))
                          userMessage.push(ur)
                     }
 
-                    console.log(conversation);
-                    res.render("profil/Messages.pug",{conversation,realtie,userMessage})
+                       let user = req.user 
+
+                    res.render("profil/Messages.pug",{conversation,realtie,userMessage,user})
                 })
 
 
@@ -291,6 +346,7 @@ module.exports = class Chat{
     GetChatReçu(req,res){
 
         let userSend = req.params.userSend
+
         new RealtyModel().getRealtyById(req.params.id).then(realties=>{
                 
             let realty=realties[0]

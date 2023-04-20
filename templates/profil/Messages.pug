@@ -13,15 +13,17 @@ block content
      tbody 
      each c in conversation
        each r in realtie
-        tr
-         td 
-          each u in userMessage
-           if c.user_id_Send == u.id  
-            h1 #{u.firstname} - #{u.lastname} 
-         td 
+        if c.realty_id == r.id
+
+         tr
+          td 
+           each u in userMessage
+           
+            if c.user_id_Send == u.id  
+             h1 #{u.firstname} - #{u.lastname} 
+          td 
            h1 #{r.area}m² - #{r.town}-#{r.zipcode}
-         td           
-           if c.realty_id == r.id
+          td           
             a(href=`/realty/${r.id}/contactResponse/${c.user_id_Send}`)    
 
              h2=c.lastMessage
