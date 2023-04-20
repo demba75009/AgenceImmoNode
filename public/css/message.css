@@ -2,14 +2,37 @@ table{
 
     margin: auto;
 }
-table,
+table,thead,
 td {
     border: 1px solid #333;
 }
+
+
 
 tbody tr{
 
 
 padding: 2rem;
 
+}
+.lien{
+
+    text-decoration: none;
+}
+
+.avatar{
+
+    width: 5rem;
+    display: block;
+    margin: auto;
+
+}
+
+a{
+    text-decoration: none;
+}
+
+a:hover{
+
+    color: red;
 }

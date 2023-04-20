@@ -22,6 +22,11 @@ module.exports = (app) => {
         new Chat().MessagesReçu(req,res)
 
     })   
+    app.get("/messages/envoyer/:id",(req,res)=>{
+
+        new Chat().MessagesEnvoyer(req,res)
+
+    })   
 
 
 

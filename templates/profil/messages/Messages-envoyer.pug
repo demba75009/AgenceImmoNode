@@ -1,15 +1,13 @@
-extends ../layout.pug 
+extends ../../layout.pug 
 
 block content
-
   link(rel="stylesheet", href="/css/message.css")
-
   h1.text-center.mt-5 Vos messages:
   .d-flex.justify-content-evenly
-   a(href=`/message/${user.id}` class="text-danger") 
+   a(href=`/message/${user.id}` class="text-dark") 
     h2 Reçu 
-   a(href=`/messages/envoyer/${user.id}` class="text-dark") 
-    h2 Envoyé  
+   a(href=`/messages/envoyer/${user.id}` class="text-danger") 
+    h2 Envoyé 
   .row.mt-5
    .col-md-12
     .panel.panel-container
@@ -21,11 +19,11 @@ block content
         th Message
      
       tbody 
-        each c in conversation
-         each r in realtie
-          if c.realty_id == r.id
-           each u in userMessage 
-            if c.user_id_Send == u.id
+       each c in conversation
+        each r in realtie
+         if c.realty_id == r.id
+          each u in userMessage 
+           if c.user_id_Receive == u.id
 
              tr
             
@@ -38,8 +36,7 @@ block content
                 h2.text-center #{u.firstname} - #{u.lastname} 
            
                td 
-                 a(class="lien" href=`/realty/${r.id}/contactResponse/${c.user_id_Send}`) 
+                 a(class="lien" href=`/realty/${r.id}/contactResponse/${c.user_id_Receive}`) 
                   h2 #{r.area}m² - #{r.town}-#{r.zipcode}
                td           
                 h2.text-danger #{c.lastMessage}
-

@@ -276,6 +276,71 @@ module.exports = class Chat{
 
     }
 
+    MessagesEnvoyer(req,res){
+
+
+        
+        new MessageModel().getConversation().then(messageMultiple=>{
+
+
+            let conversation = messageMultiple.filter(c=>c.user_id_Send == req.user.id).map(c=>c)
+
+            const realty = conversation.map(r=>r.realty_id)  
+
+            const userss = conversation.map(u=>u.user_id_Receive)       
+           
+
+
+              new RealtyModel().GetRealty().then(realties=>{
+
+
+                let realtie = []
+                for (let r2 in realty){
+
+                     let dr = realties.find(r=>r.id === realty[r2])
+
+                     realtie.push(dr)
+                }
+
+
+                new UserModel().GetUser().then(users=>{
+
+                    let userMessage = []
+
+                    for(let u in userss){
+
+                        let ur = users.find(r=>r.id === userss[u])
+                        if(!userMessage.includes(ur))
+                         userMessage.push(ur)
+                    }
+
+                       let user = req.user 
+
+                    res.render("profil/messages/Messages-envoyer.pug",{conversation,realtie,userMessage,user})
+                })
+
+
+                
+
+                
+
+                }
+
+                )
+
+                
+            
+
+            
+
+
+
+
+
+        })
+
+
+    }
     MessagesReçu(req,res){
 
 

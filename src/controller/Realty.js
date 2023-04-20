@@ -2,6 +2,7 @@ const RealtyModel = require("../../repository/RealtyModel")
 const ContactModel = require("../../repository/ContactModel")
 const UserModel = require("../../repository/UserModel")
 const UploadImageProductService = require("../services/UploadImageProduct") 
+const Home = require("./Home")
 module.exports = class Realty{
 
 
@@ -170,9 +171,9 @@ module.exports = class Realty{
 
                                     new RealtyModel().addRealtyPicture(picture).then(r=>{
 
-                                        req.flash('notify', `Le bien a été enregistré`);
 
-                                        res.redirect('/');
+                                    new Home().print(req,res)     
+
                                     })
 
                                 })
@@ -196,7 +197,6 @@ module.exports = class Realty{
                   
                     new ContactModel().getContactByEmail(contact.email).then(response1=>{
     
-                        console.log(response1);
       
                     realty.contact_id = response1[0].id
                     new RealtyModel().addRealty(realty).then( response=>{
@@ -230,8 +230,8 @@ module.exports = class Realty{
                                     new RealtyModel().addRealtyPicture(picture).then(r=>{
 
 
-                                        req.flash('success', `Le bien a été enregistré`);
-                                        res.redirect('/');
+                                        new Home().print(req,res)     
+
                                     })
 
                                 })
@@ -324,7 +324,7 @@ module.exports = class Realty{
         }    
 
 
-         RealtyDelete(req,res){
+         RealtyDeleteClient(req,res){
 
             
            new RealtyModel().DeleteRealty(req.params.id)
@@ -332,7 +332,7 @@ module.exports = class Realty{
                 req.flash("notify",`bien ${req.params.id} supprimé !`)
            
 
-                res.redirect("/profile")
+                res.redirect("/profil")
         
                 
 

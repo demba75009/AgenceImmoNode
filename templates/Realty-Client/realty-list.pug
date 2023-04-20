@@ -40,8 +40,9 @@ block content
                             p #{realtie.zipcode}
                         
                           p.ms-5.mt-5.text-secondary #{realtie.created_date}
-            .col-lg-4.d-flex.flex-column.justify-content-center.align-items-center.sticky-top
-             a(href="https://www.linkedin.com/in/demba-kante-68510714b/") 
-              img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
-             h2 KANTE DEMBA                
+            .col-lg-4
+             .sticky-top.d-flex.justify-content-center
+              a(href="https://www.linkedin.com/in/demba-kante-68510714b/" class="mt-5") 
+               img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
+               h2 KANTE DEMBA                
     include ../utils/paginateRealtyClient.pug 
