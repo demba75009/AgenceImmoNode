@@ -27,13 +27,15 @@ block content
 
              tr
             
-               td 
-                if u.civility === "M"
-                 img(src="/assets/avatar.png" alt="mdo" class=" avatar")
-                else 
-                 img(src="/assets/avatar-femme.png" alt="mdo" class="avatar")
+               td
+                div(class=`${c.Lu == 0 ? "bg-danger" : "bg-light"}`)
+  
+                 if u.civility === "M"
+                  img(src="/assets/avatar.png" alt="mdo" class=" avatar")
+                 else 
+                  img(src="/assets/avatar-femme.png" alt="mdo" class="avatar")
                 
-                h2.text-center #{u.firstname} - #{u.lastname} 
+                 h2.text-center #{u.firstname} - #{u.lastname} 
            
                td 
                  a(class="lien" href=`/realty/${r.id}/contactResponse/${c.user_id_Receive}`) 

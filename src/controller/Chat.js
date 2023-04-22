@@ -282,7 +282,7 @@ module.exports = class Chat{
         
         new MessageModel().getConversation().then(messageMultiple=>{
 
-
+ 
             let conversation = messageMultiple.filter(c=>c.user_id_Send == req.user.id).map(c=>c)
 
             const realty = conversation.map(r=>r.realty_id)  
@@ -381,6 +381,7 @@ module.exports = class Chat{
 
                        let user = req.user 
 
+
                     res.render("profil/Messages.pug",{conversation,realtie,userMessage,user})
                 })
 
@@ -407,7 +408,7 @@ module.exports = class Chat{
 
     }
 
-
+ 
     GetChatReçu(req,res){
 
         let userSend = req.params.userSend
@@ -434,6 +435,9 @@ module.exports = class Chat{
                 let userChat = userMultiple[0]
 
 
+
+
+               
                 new MessageModel().getmessage().then(messageMultiple=>{
 
 
@@ -444,9 +448,16 @@ module.exports = class Chat{
 
                     let messageDiscution = messagesChat.filter(m=>m.realty_id == realty.id).map(m=>m)
 
+                    let i = messageDiscution.length - 1
+                    let m = messageDiscution[i]
+
+
+                    new MessageModel().updateConversationLu(m).then(rt=>{
+
 
                     res.render("Realty-Client/chat/chat-list-discution",{contact,userChat,realty,pictures,messageDiscution,user})
                 })
+            })
                 
                     }
                 )    
