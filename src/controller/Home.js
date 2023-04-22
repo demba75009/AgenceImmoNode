@@ -19,6 +19,7 @@ module.exports = class Home {
              
                 new RealtyModel().ImagesList().then(pictures=>{
 
+                  
   
              res.render("home",{realties,page,totalPages,pictures})
 

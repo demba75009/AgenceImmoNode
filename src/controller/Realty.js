@@ -158,28 +158,40 @@ module.exports = class Realty{
                             }                                
                             Promise.all(photos).then((values) => {
                                
-                                values.forEach((path, index) => {
+                                if(values){
 
-                                    const picture = {
-
-                                        id_realty : response[0].insertId,
-                                        url_path: path.replace('public/',''),
-                                        ordre:index+1
-                                        
-
-                                    }
-
-                                    new RealtyModel().addRealtyPicture(picture).then(r=>{
-
-
-                                    new Home().print(req,res)     
-
+                                    
+                                    values.forEach((path, index) => {
+    
+                                        const picture = {
+    
+                                            id_realty : response[0].insertId,
+                                            url_path: path.replace('public/',''),
+                                            ordre:index+1
+    
+    
+                                        } 
+    
+                                        new RealtyModel().addRealtyPicture(picture).then(r=>{
+    
+                                            res.redirect("/")
+    
+                                        })
                                     })
+                                } 
+                                else{
 
-                                })
+
+                                    console.log("no photo");
+                                    res.redirect("/")
+                                }
 
                                
                             });
+                        }
+                        else{
+                            console.log("no photo");
+                            res.redirect("/")
                         }
 
 
@@ -216,26 +228,36 @@ module.exports = class Realty{
                             }                                
                             Promise.all(photos).then((values) => {
                                 
-                                values.forEach((path, index) => {
 
-                                    const picture = {
-
-                                        id_realty : response[0].insertId,
-                                        url_path: path.replace('public/',''),
-                                        ordre:index+1
-
-
-                                    } 
-
-                                    new RealtyModel().addRealtyPicture(picture).then(r=>{
-
-
-                                        new Home().print(req,res)     
-
+                                    
+                                    values.forEach((path, index) => {
+    
+                                        const picture = {
+    
+                                            id_realty : response[0].insertId,
+                                            url_path: path.replace('public/',''),
+                                            ordre:index+1
+    
+    
+                                        } 
+    
+                                        new RealtyModel().addRealtyPicture(picture).then(r=>{
+    
+                                            res.redirect("/")
+    
+                                        })
                                     })
+                               
 
-                                })
+                                    
+
+
+
                             });
+                        }
+                        else{
+                            console.log("no photo");
+                            res.redirect("/")
                         }
                         
                     }

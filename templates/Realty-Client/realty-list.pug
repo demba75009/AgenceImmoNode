@@ -17,12 +17,16 @@ block content
                    a(href=`/realty/${realtie.id}`)
  
                     .card.mt-2
-                     each picture in pictures
-                      if picture.realty_id == realtie.id 
-                       if picture.Ordre == 1 
+                    
                         .d-flex
                          .Image
-                          img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                          
+                          each picture in pictures
+                            if  picture.realty_id == realtie.id 
+                             if picture.Ordre == 1 
+                              img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                            
+                            //- img(class="Image1" src="/assets/Maison.jpg")
                          .description    
                           h1(class="ms-5 mt-5 prix") #{realtie.price}$
                           .d-flex.ms-5
@@ -40,6 +44,7 @@ block content
                             p #{realtie.zipcode}
                         
                           p.ms-5.mt-5.text-secondary #{realtie.created_date}
+                      
             .col-lg-4
              .sticky-top.d-flex.justify-content-center
               a(href="https://www.linkedin.com/in/demba-kante-68510714b/" class="mt-5") 
