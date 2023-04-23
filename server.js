@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 const secretJwt = 'eyJeiwidHlwIjoiSyJhbGciOiJub25lIldUIn0Jub2wIjoiSldUIn0';
 const Cookies = require("cookies");
 const http = require('http');
+const MessagesNonLu = require("./config/messagesNonLu.js")
 
 const server = http.createServer(app);
 const { Server } = require("socket.io");
@@ -49,7 +50,7 @@ app.use((req,res,next) => {
 
    
     req.session.user = dataJwt
-    req.session.messagesNonLu = []
+    new MessagesNonLu().print(req,res)
     res.locals.session = req.session;
     res.locals.route = req._parsedUrl.pathname;
   })

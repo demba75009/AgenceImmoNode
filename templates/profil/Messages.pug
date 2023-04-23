@@ -21,13 +21,11 @@ block content
         th Objet
      
       tbody 
-        each c in conversation
-           each r in realtie
-            each u in userMessage 
-
+       each c in conversation
+        each r in realtie
+         each u in userMessage
              if c.realty_id == r.id && c.user_id_Send == u.id
-               
-               tr(class=`${c.Lu == 0 ? "bg-light" : ""}`)       
+               tr(class=`${c.Lu == 0 ? "bg-light" : ""}`)      
 
                  td 
                   if c.Lu == 1

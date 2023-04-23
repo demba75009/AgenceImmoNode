@@ -369,19 +369,7 @@ module.exports = class Chat{
         new MessageModel().getConversation().then(messageMultiple=>{
 
 
-            let conversation = messageMultiple.filter(c=>c.user_id_Receive == req.user.id).map(c=>c).sort(function compare(a, b) {
-                const timestampA = new Date(a.created_date);
-                const timestampB = new Date(b.created_date);
-                
-                if (timestampA < timestampB) {
-                  return -1;
-                }
-                if (timestampA > timestampB) {
-                  return 1;
-                }
-                return 0;
-              })
-                
+            let conversation = messageMultiple.filter(c=>c.user_id_Receive == req.user.id).map(c=>c)
             const realty = conversation.map(r=>r.realty_id)  
 
             const userss = conversation.map(u=>u.user_id_Send)       
@@ -414,7 +402,7 @@ module.exports = class Chat{
                        let user = req.user 
 
 
-
+                       console.log(conversation);
 
                     res.render("profil/Messages.pug",{conversation,realtie,userMessage,user})
                 })
