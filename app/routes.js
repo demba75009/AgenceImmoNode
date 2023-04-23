@@ -58,12 +58,12 @@ module.exports = (app) => {
 
     }) 
 
-    app.get("/realty/:id/contact/:contact",(req,res)=>{
+    app.get("/realty/:id/contact/:userId",(req,res)=>{
 
         new Chat().Get(req,res)
 
     })   
-    app.post("/realty/:id/contact/:contact",(req,res)=>{
+    app.post("/realty/:id/contact/:userId",(req,res)=>{
 
         new Chat().Add(req,res)
 

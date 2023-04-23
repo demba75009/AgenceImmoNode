@@ -36,27 +36,18 @@ block content
             .col-lg-3
              .card.mt-5.sticky-top
               .card-header.d-flex.justify-content-center
-               if contact.civility === "M"
-                img(src="/assets/avatar.png" alt="mdo" class="w-50 rounded-circle ms-2")
-               else 
-                img(src="/assets/avatar-femme.png" alt="mdo" class="w-50 ms-2")
-              
-              .card-title
-                h2.text-center Contact:
-                h2.text-center #{contact.lastname} - #{contact.firstname}
-                h2.text-center 
-                 a(href=`tel:+${contact.phone}`) #{contact.phone}
-                hr 
-                h2.text-center Publier par:
-                if UserRealty.civility === "M"
+               if UserRealty.civility === "M"
                  .d-flex.justify-content-center
                   img(src="/assets/avatar.png" alt="mdo" class="w-50 rounded-circle ms-2")
-                else 
+               else 
                  .d-flex.justify-content-center
                   img(src="/assets/avatar-femme.png" alt="mdo" class="w-50 ms-2") 
+              .card-title
+                h2.text-center Publier par:
+               
                 h2.text-center #{UserRealty.lastname} - #{UserRealty.firstname}
               .card-body.d-flex.justify-content-center 
-                a.btn.btn-primary(href=`/realty/${realty.id}/contact/${contact.lastname}`) Envoyez lui un message
+                a.btn.btn-primary(href=`/realty/${realty.id}/contact/${UserRealty.id}`) Envoyez lui un message
           
           else
            .col-lg-3

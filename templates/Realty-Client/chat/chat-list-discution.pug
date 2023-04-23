@@ -14,13 +14,15 @@ block content
     .d-flex.align-items-end
     
     if m.user_id_Send == userChat.id || user.id
-     if m.user_id_Send == user.id 
+     if m.user_id_Send  == user.id 
       strong Vous - 
       span #{m.contenu}
-     else
+      p #{m.created_date} 
+
+     if m.user_id_Send == userChat.id
       strong #{userChat.lastname} - 
       span #{m.contenu}
-     p #{m.created_date} 
+      p #{m.created_date} 
      
  form(action=`/realty/${realty.id}/contactResponse/${userChat.id}` method="post" class="d-flex h-25 justify-content-center align-items-end")
   textarea(name="dialogue", cols="80", rows="5") 

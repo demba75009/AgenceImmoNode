@@ -18,12 +18,6 @@ module.exports = class Chat{
                 let pictures = picture.filter(p=> p.realty_id === realty.id).map(p=>p)
 
 
-
-                new ContactModel().getContactById(realty.contact_id).then( conctacts=>{
-        
-
-                    let contact = conctacts[0]
-
                 new UserModel().getUserById(realty.user_id).then(userMultiple =>
                     
                     {
@@ -33,13 +27,29 @@ module.exports = class Chat{
                 new MessageModel().getmessage().then(messageMultiple=>{
 
 
-                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send  == req.user.id) && (m.user_id_Receive  == userChat.id) && m.realty_id === realty.id).map(m=>m)
+                   
+                    let messageDiscution1 = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == userChat.id )  && (m.user_id_Receive ||  m.user_id_Send  === req.user.id)  && m.realty_id === realty.id)
 
-                    console.log(messagesChat);
                     let user = req.user
 
+
+                    let i = messageDiscution1.length - 1
+                    let m = messageDiscution1[i] 
+
+                    let sendMessage = messageDiscution1.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive == userChat.id)
+
+
+                    let receiveMessage =  messageDiscution1.filter(m=>m.user_id_Send == userChat.id && m.user_id_Receive == req.user.id)
+
+                    let messagesChat = [...sendMessage,...receiveMessage]
+
+                    messagesChat.sort(function(a, b) {
+                        return a.id - b.id;
+                      })
+
+
                    
-                    res.render("Realty-Client/chat/chat-list",{contact,userChat,realty,pictures,messagesChat,user})
+                    res.render("Realty-Client/chat/chat-list",{userChat,realty,pictures,messagesChat,user})
                 })
                 
                     }
@@ -52,7 +62,6 @@ module.exports = class Chat{
                    })
         
         
-        })
 
 
 
@@ -242,21 +251,34 @@ module.exports = class Chat{
 
                 new UserModel().getUserById(userSend).then(userMultiple =>
                     
-                    {
+                    { 
                         
                 let userChat = userMultiple[0]
 
                 new MessageModel().getmessage().then(messageMultiple=>{
  
 
-
-                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == req.user.id) && (m.user_id_Receive || m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
+                    let messageDiscution1 = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == userChat.id )  && (m.user_id_Receive ||  m.user_id_Send  === req.user.id)  && m.realty_id === realty.id)
 
                     let user = req.user
 
-                    let messageDiscution = messagesChat.filter(m=>m.realty_id == realty.id).map(m=>m)
+
+                    let i = messageDiscution1.length - 1
+                    let m = messageDiscution1[i] 
+
+                    let sendMessage = messageDiscution1.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive == userChat.id)
 
 
+                    let receiveMessage =  messageDiscution1.filter(m=>m.user_id_Send == userChat.id && m.user_id_Receive == req.user.id)
+
+                    let messageDiscution = [...sendMessage,...receiveMessage]
+
+                    messageDiscution.sort(function(a, b) {
+                        return a.id - b.id;
+                      })
+
+
+                    
                     res.render("Realty-Client/chat/chat-list-discution",{contact,userChat,realty,pictures,messageDiscution,user})
                 })
                 
@@ -366,7 +388,6 @@ module.exports = class Chat{
            
 
 
-console.log(conversation);
               new RealtyModel().GetRealty().then(realties=>{
 
 
@@ -450,20 +471,31 @@ console.log(conversation);
 
 
 
-
                
                 new MessageModel().getmessage().then(messageMultiple=>{
 
 
 
-                    let messagesChat = messageMultiple.filter(m=>( m.user_id_Receive == req.user.id) && (m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
+                    let messageDiscution1 = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == userChat.id )  && (m.user_id_Receive ||  m.user_id_Send  === req.user.id)  && m.realty_id === realty.id)
 
                     let user = req.user
 
-                    let messageDiscution = messagesChat.filter(m=>m.realty_id == realty.id).map(m=>m)
 
-                    let i = messageDiscution.length - 1
-                    let m = messageDiscution[i]
+                    let i = messageDiscution1.length - 1
+                    let m = messageDiscution1[i] 
+
+                    let sendMessage = messageDiscution1.filter(m=>m.user_id_Send == req.user.id && m.user_id_Receive == userChat.id)
+
+
+                    let receiveMessage =  messageDiscution1.filter(m=>m.user_id_Send == userChat.id && m.user_id_Receive == req.user.id)
+
+                    let messageDiscution = [...sendMessage,...receiveMessage]
+
+                    messageDiscution.sort(function(a, b) {
+                        return a.id - b.id;
+                      })
+
+
 
                     if(m.user_id_Send !== user.id){
                      new MessageModel().updateConversationLu(m).then(rt=>{

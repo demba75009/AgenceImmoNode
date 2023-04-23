@@ -47,9 +47,7 @@ app.use((req,res,next) => {
    
     req.user = dataJwt
 
-    io.on('connection', (socket) => {
-      console.log(`${req.user} is connected`);
-    });
+   
     req.session.user = dataJwt
     req.session.messagesNonLu = []
     res.locals.session = req.session;
