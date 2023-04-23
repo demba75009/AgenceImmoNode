@@ -9,19 +9,19 @@ block content
    img(src="/assets/avatar-femme.png" alt="mdo" class="ms-2" width="100")
   h1.align-self-end #{userChat.lastname} - #{userChat.firstname}
  p.ms-5 Annonce : #{realty.room} pièces-#{realty.area} m²- #{realty.town}-#{realty.zipcode}
-
- each m in messageDiscution
+ .mt-5
+  each m in messageDiscution
     .d-flex.align-items-end
     
     if m.user_id_Send == userChat.id || user.id
      if m.user_id_Send == user.id 
-      strong #{user.lastname} - 
+      strong Vous - 
       span #{m.contenu}
      else
       strong #{userChat.lastname} - 
       span #{m.contenu}
-     p #{m.created_date}
+     p #{m.created_date} 
      
- form(action=`/realty/${realty.id}/contactResponse/${userChat.id}` method="post" class="d-flex h-75 justify-content-center align-items-end")
+ form(action=`/realty/${realty.id}/contactResponse/${userChat.id}` method="post" class="d-flex h-25 justify-content-center align-items-end")
   textarea(name="dialogue", cols="80", rows="5") 
-  button.ms-5 envoyer   
+  button.ms-5 envoyer    

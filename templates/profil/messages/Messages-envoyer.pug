@@ -14,9 +14,9 @@ block content
      table.table.table-hover 
       thead 
        tr.text-center 
+        th
         th User
         th Objet
-        th Message
      
       tbody 
        each c in conversation
@@ -25,10 +25,17 @@ block content
           each u in userMessage 
            if c.user_id_Receive == u.id
 
-             tr
+              tr(class=`${c.Lu == 0 ? "bg-light" : ""}`)       
+               td
+
+                 if c.Lu == 1
+
+                   i.fa-regular.fa-envelope-open
+
+                 else 
+                   i.fa-solid.fa-envelope
             
                td
-                div(class=`${c.Lu == 0 ? "bg-danger" : "bg-light"}`)
   
                  if u.civility === "M"
                   img(src="/assets/avatar.png" alt="mdo" class=" avatar")
@@ -40,5 +47,3 @@ block content
                td 
                  a(class="lien" href=`/realty/${r.id}/contactResponse/${c.user_id_Receive}`) 
                   h2 #{r.area}m² - #{r.town}-#{r.zipcode}
-               td           
-                h2.text-danger #{c.lastMessage}

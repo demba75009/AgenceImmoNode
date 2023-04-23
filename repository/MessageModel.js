@@ -10,7 +10,9 @@ module.exports = class MessageModel {
 
     
     updateConversation(message){
-        return con.promise().query(`UPDATE conversation SET lastMessage ="${message.contenu}", Lu = 0 WHERE realty_id = ${message.id_realty} AND user_id_Send = ${message.UserSend} AND user_id_Receive = ${message.UserReceive};`)
+        let date = Date.now()
+        console.log(date);
+        return con.promise().query(`UPDATE conversation SET lastMessage ="${message.contenu}", Lu = 0,created_date =${date} WHERE realty_id = ${message.id_realty} AND user_id_Send = ${message.UserSend} AND user_id_Receive = ${message.UserReceive};`)
 
     }
     

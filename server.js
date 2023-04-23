@@ -51,6 +51,7 @@ app.use((req,res,next) => {
       console.log(`${req.user} is connected`);
     });
     req.session.user = dataJwt
+    req.session.messagesNonLu = []
     res.locals.session = req.session;
     res.locals.route = req._parsedUrl.pathname;
   })

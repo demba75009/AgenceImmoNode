@@ -158,7 +158,6 @@ module.exports = class Realty{
                             }                                
                             Promise.all(photos).then((values) => {
                                
-                                if(values){
 
                                     
                                     values.forEach((path, index) => {
@@ -178,20 +177,27 @@ module.exports = class Realty{
     
                                         })
                                     })
-                                } 
-                                else{
-
-
-                                    console.log("no photo");
-                                    res.redirect("/")
-                                }
+                                
+                               
 
                                
                             });
                         }
                         else{
-                            console.log("no photo");
-                            res.redirect("/")
+                            const picture = {
+    
+                                id_realty : response[0].insertId,
+                                url_path: "assets/Maison.jpg",
+                                ordre:1
+
+
+                            } 
+
+                            new RealtyModel().addRealtyPicture(picture).then(r=>{
+
+                                res.redirect("/")
+
+                            })
                         }
 
 
@@ -256,8 +262,20 @@ module.exports = class Realty{
                             });
                         }
                         else{
-                            console.log("no photo");
-                            res.redirect("/")
+                            const picture = {
+    
+                                id_realty : response[0].insertId,
+                                url_path: "assets/Maison.jpg",
+                                ordre:1
+
+
+                            } 
+
+                            new RealtyModel().addRealtyPicture(picture).then(r=>{
+
+                                res.redirect("/")
+
+                            })
                         }
                         
                     }

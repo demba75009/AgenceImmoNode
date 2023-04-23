@@ -31,7 +31,6 @@ module.exports = (app) => {
 
 
 
-
     app.get("/profil",(req,res)=>{
  
         new Home().profil(req,res)

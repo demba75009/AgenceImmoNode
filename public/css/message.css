@@ -36,3 +36,10 @@ a:hover{
 
     color: red;
 }
+
+i{
+
+    padding: 1rem;
+    font-size: 2rem;
+    margin-top: 25%;
+}

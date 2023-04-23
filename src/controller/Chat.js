@@ -33,9 +33,9 @@ module.exports = class Chat{
                 new MessageModel().getmessage().then(messageMultiple=>{
 
 
+                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send  == req.user.id) && (m.user_id_Receive  == userChat.id) && m.realty_id === realty.id).map(m=>m)
 
-                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == req.user.id) && (m.user_id_Receive || m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
-
+                    console.log(messagesChat);
                     let user = req.user
 
                    
@@ -246,9 +246,8 @@ module.exports = class Chat{
                         
                 let userChat = userMultiple[0]
 
-
                 new MessageModel().getmessage().then(messageMultiple=>{
-
+ 
 
 
                     let messagesChat = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == req.user.id) && (m.user_id_Receive || m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
@@ -348,7 +347,18 @@ module.exports = class Chat{
         new MessageModel().getConversation().then(messageMultiple=>{
 
 
-            let conversation = messageMultiple.filter(c=>c.user_id_Receive == req.user.id).map(c=>c)
+            let conversation = messageMultiple.filter(c=>c.user_id_Receive == req.user.id).map(c=>c).sort(function compare(a, b) {
+                const timestampA = new Date(a.created_date);
+                const timestampB = new Date(b.created_date);
+                
+                if (timestampA < timestampB) {
+                  return -1;
+                }
+                if (timestampA > timestampB) {
+                  return 1;
+                }
+                return 0;
+              })
                 
             const realty = conversation.map(r=>r.realty_id)  
 
@@ -356,6 +366,7 @@ module.exports = class Chat{
            
 
 
+console.log(conversation);
               new RealtyModel().GetRealty().then(realties=>{
 
 
@@ -380,6 +391,8 @@ module.exports = class Chat{
                     }
 
                        let user = req.user 
+
+
 
 
                     res.render("profil/Messages.pug",{conversation,realtie,userMessage,user})
@@ -411,6 +424,7 @@ module.exports = class Chat{
  
     GetChatReçu(req,res){
 
+        let user = req.user
         let userSend = req.params.userSend
 
         new RealtyModel().getRealtyById(req.params.id).then(realties=>{
@@ -442,7 +456,7 @@ module.exports = class Chat{
 
 
 
-                    let messagesChat = messageMultiple.filter(m=>(m.user_id_Send || m.user_id_Receive == req.user.id) && (m.user_id_Receive || m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
+                    let messagesChat = messageMultiple.filter(m=>( m.user_id_Receive == req.user.id) && (m.user_id_Send === userChat.id) && m.realty_id === realty.id).map(m=>m)
 
                     let user = req.user
 
@@ -451,12 +465,24 @@ module.exports = class Chat{
                     let i = messageDiscution.length - 1
                     let m = messageDiscution[i]
 
-
-                    new MessageModel().updateConversationLu(m).then(rt=>{
+                    if(m.user_id_Send !== user.id){
+                     new MessageModel().updateConversationLu(m).then(rt=>{
 
 
                     res.render("Realty-Client/chat/chat-list-discution",{contact,userChat,realty,pictures,messageDiscution,user})
-                })
+                        })
+
+                    }
+
+                    else{
+
+                        res.render("Realty-Client/chat/chat-list-discution",{contact,userChat,realty,pictures,messageDiscution,user})
+                        
+                    }
+
+
+
+                
             })
                 
                     }

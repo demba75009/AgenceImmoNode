@@ -2,19 +2,19 @@ extends ../../layout.pug
 
 block content
 
- .d-flex.mt-5
+ .d-flex.mt-5 
   if userChat.civility === "M"
    img(src="/assets/avatar.png" alt="mdo" class="ms-2" width="100") 
   else 
    img(src="/assets/avatar-femme.png" alt="mdo" class="ms-2" width="100")
   h1.align-self-end #{userChat.lastname} - #{userChat.firstname}
- p.ms-5 Annonce : #{realty.room} pièces-#{realty.area} m²- #{realty.town}-#{realty.zipcode}
-
- each m in messagesChat
+  p.ms-5 Annonce : #{realty.room} pièces-#{realty.area} m²- #{realty.town}-#{realty.zipcode}
+ .mt-5
+  each m in messagesChat
     .d-flex.align-items-end
      strong #{user.lastname} - 
      span #{m.contenu}
     p #{m.created_date}
- form(action=`/realty/${realty.id}/contact/${contact.lastname}` method="post" class="d-flex h-75 justify-content-center align-items-end")
+ form(action=`/realty/${realty.id}/contact/${contact.lastname}` method="post" class="d-flex h-25 justify-content-center align-items-end")
   textarea(name="dialogue", cols="80", rows="5") 
-  button.ms-5 envoyer   
+  button.ms-5 envoyer    
