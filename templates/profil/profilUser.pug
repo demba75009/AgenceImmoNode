@@ -10,40 +10,45 @@ block content
     else 
      img(src="/assets/avatar-femme.png" alt="mdo" class="w-25 ms-2")
     h1 #{user.username} - #{user.lastname}
+ 
 
-
-  h2 Vos Annonces : 
+  h2.text-center.mt-5 Vos Annonces : 
    br
    if realties.length > 0 
          .row.mt-5
-            .col-lg-12
+            .col-sm-12
                 .panel.panel-container
                   each realtie in realties 
                    a(href=`/realty/${realtie.id}`)
  
-                    .card.mt-5
-                     each picture in pictures
-                      if picture.realty_id == realtie.id 
-                       if picture.Ordre == 1 
-                        .d-flex
+                    .card.mt-2.h-5
+                    
+                        .d-lg-flex.d-sm--block
                          .Image
-                          img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                          
+                          each picture in pictures
+                            if  picture.realty_id == realtie.id 
+                             if picture.Ordre == 1 
+                              img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                            
+                            //- img(class="Image1" src="/assets/Maison.jpg")
                          .description    
-                          h1(class="ms-5 mt-5 prix") #{realtie.price}$
-                          .d-flex.ms-5
+                          h1(class="mt-5 text-danger") #{realtie.price}$
+                          .d-lg-flex.ms-5.d-sm-block
                             if realtie.type == 1
-                             p Appartement-
+                             p Appartement
                             if realtie.type == 2 
-                             p Maison-
+                             p Maison
                             if realtie.type == 3 
-                             p Studio-
+                             p Studio
                             if realtie.type == 4
-                             p Autre -
-                            p #{realtie.area}m²-
+                             p Autre 
+                            p.ms-lg-2 #{realtie.area}m² 
                                         
-                            p #{realtie.town}- 
-                            p #{realtie.zipcode}
-                          h4.ms-5.mt-5.text-secondary #{realtie.created_date}
+                            p.ms-lg-2 #{realtie.town} 
+                            p.ms-lg-2 #{realtie.zipcode}
+                        
+                          p.ms-5.mt-5.text-secondary #{realtie.created_date}
 
                           .d-flex.justify-content-evenly    
                            a(href="/realty/edit/"+realtie.id)

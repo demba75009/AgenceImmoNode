@@ -1,13 +1,13 @@
 extends ../layout.pug
 block content
     link(rel="stylesheet", href="/css/realty-list.css")
-    div(class="d-flex mt-5  justify-content-between ") 
+    div(class="d-lg-flex d-sm-block mt-5 text-center  justify-content-between ") 
      h1 Resultats pour "#{city}"
      form(class="search") 
-      input(type="text" class="w-75" placeholder="ville" ) 
+      input(type="text" class="w-lg-75" placeholder="ville" ) 
       button ok
      if session && session.user
-      a.btn.btn-primary.h-25(href="/realty/add/form") Ajouter un bien 
+      a.btn.btn-primary.h-lg-25(href="/realty/add/form") Ajouter un bien 
 
 
     if realties.length == 0
@@ -15,38 +15,45 @@ block content
     
     if realties.length > 0 
          .row.mt-5
-            .col-lg-8
+            .col-lg-8.col-sm-12
                 .panel.panel-container
                   each realtie in realties 
                    a(href=`/realty/${realtie.id}`)
  
-                    .card.mt-2
-                     each picture in pictures
-                      if picture.realty_id == realtie.id 
-                       if picture.Ordre == 1 
-                        .d-flex
+                    .card.mt-2.h-5
+                    
+                        .d-lg-flex.d-sm--block
                          .Image
-                          img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                          
+                          each picture in pictures
+                            if  picture.realty_id == realtie.id 
+                             if picture.Ordre == 1 
+                              img( class="Image1" src=picture.url_path, alt=picture.url_path)                                  
+                            
+                            //- img(class="Image1" src="/assets/Maison.jpg")
                          .description    
                           h1(class="ms-5 mt-5 prix") #{realtie.price}$
-                          .d-flex.ms-5
+                          .d-lg-flex.ms-5.d-sm-block
                             if realtie.type == 1
-                             p Appartement-
+                             p Appartement
                             if realtie.type == 2 
-                             p Maison-
+                             p Maison
                             if realtie.type == 3 
-                             p Studio-
+                             p Studio
                             if realtie.type == 4
-                             p Autre -
-                            p #{realtie.area}m²-
+                             p Autre 
+                            p.ms-lg-2 #{realtie.area}m² 
                                         
-                            p.town #{realtie.town}- 
-                            p #{realtie.zipcode}
+                            p.ms-lg-2 #{realtie.town} 
+                            p.ms-lg-2 #{realtie.zipcode}
                         
                           p.ms-5.mt-5.text-secondary #{realtie.created_date}
-                          
-            .col-lg-4.d-flex.flex-column.justify-content-center.align-items-center.position-sticky
-             a(href="https://www.linkedin.com/in/demba-kante-68510714b/") 
-              img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
-             h2 KANTE DEMBA                
-            include ../utils/paginateRealtyClient.pug     
+                          .text-center.d-sm-block.d-lg-none.Detail
+                           button.btn-primary.mt-1.w-50 Voir en détail 
+                      
+            .col-lg-4.Linkendin
+             .sticky-top.d-flex.justify-content-center
+              a(href="https://www.linkedin.com/in/demba-kante-68510714b/" class="mt-5") 
+               img(src="/assets/Linkendin.png", alt="linkedink", srcset="")     
+               h2 KANTE DEMBA                
+    include ../utils/paginateRealtyClient.pug 
