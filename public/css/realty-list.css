@@ -1,9 +1,18 @@
 .Image1{
 
-    width: 20rem;
-    height: 18rem;
+    width: 100%;
+    height: 20rem;
+    display: block;
+    margin: auto;
+
   
 }
+
+.Linkendin{
+
+    display: none;
+}
+
 
 a{
 
@@ -20,4 +29,27 @@ a:hover{
 
 ::placeholder {
     text-align: center; 
+ }
+
+
+
+ .Detail{
+
+    margin-bottom: 1rem;
+ }
+
+ @media screen and (min-width:900px) {
+
+    .Image1{
+
+        width: 20rem;
+        height: 18rem;
+        margin-top: 0rem;
+      
+    }
+    
+    .Linkendin{
+
+        display: block;
+    }
  }
