@@ -76,6 +76,7 @@ module.exports = class Realty{
 
 
 
+
                     new UserModel().getUserById(realty.user_id).then( users =>{
 
                     
@@ -88,7 +89,7 @@ module.exports = class Realty{
 
                         let contact = conctacts[0]
                     
-                    res.render("Realty-Client/detail/realty-detail",{realty,pictures,contact,UserRealty,user})
+                    res.render("Realty-Client/detail/realty-detail",{realty,pictures,contact,UserRealty,user,})
        
 
                     })

@@ -8,6 +8,8 @@ block content
            
             each picture of pictures 
              img(class="imageDetail" src=`/${picture.url_path}`, alt=picture.url_path) 
+            
+            button.Show More 
             h1 #{realty.type}-#{realty.area} m²-#{realty.address1}
                     
                     
@@ -55,7 +57,7 @@ block content
              h1.text-center Pour accedez aux contacts, connectez-vous ou créer vous un compte :) 
 
 block script
- script(src="/js/chat.js")  
+ script(src="/js/realty-detail.js")  
 
 
                     //- table.table.table-hover

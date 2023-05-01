@@ -2,6 +2,8 @@
 
     let input = document.querySelector('form input');
 
+   
+
 document.querySelector('.search').addEventListener("submit",e=>{
 
     e.preventDefault()
@@ -10,7 +12,7 @@ document.querySelector('.search').addEventListener("submit",e=>{
         console.log(value);
         fetch(`/${value}`).then(res=>location.assign(`/${value}`)).catch(err=>console.log(err))
 
-})
+}) 
     
 document.querySelector('input').addEventListener("input",(e)=>{
 
@@ -30,5 +32,7 @@ document.querySelector('input').addEventListener("input",(e)=>{
 
 
 })
+
+
 
 }(document, window));
